@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(REPLACE_WITH_YOUR_PROJECT_NAME)
+project(Pico8_Celeste)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -19,6 +19,10 @@ add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
     ${SRC_FILES}
     ${HEADER_FILES}
+        src/Player/CelPlayer.cpp
+        src/Player/CelPlayerController.cpp
+        include/Player/CelPlayerController.h
+        src/Player/CelPlayerController.cpp
 )
 
 if(MSVC)

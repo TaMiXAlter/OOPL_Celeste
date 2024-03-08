@@ -1,7 +1,11 @@
 #ifndef APP_HPP
 #define APP_HPP
 
+#include "CelUtil/CelGameObject.hpp"
+#include "Player/CelPlayer.hpp"
+#include "Player/CelPlayerController.h"
 #include "pch.hpp" // IWYU pragma: export
+#include <memory>
 
 class App {
 public:
@@ -24,6 +28,12 @@ private:
 
 private:
     State m_CurrentState = State::START;
+
+    /**GameObjects*/
+    std::shared_ptr<Player::CelPlayer> m_Player;
+    std::shared_ptr<CelUtil::CelGameObject> m_CelTestObject;
+    /**Controller*/
+    std::shared_ptr<Player::CelPlayerController> m_PlayerController;
 };
 
 #endif
