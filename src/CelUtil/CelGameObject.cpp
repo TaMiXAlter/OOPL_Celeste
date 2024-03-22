@@ -20,15 +20,15 @@ namespace CelUtil {
         const float XPosition = this->m_Transform.translation.x;
         
         //** x:Left and y:Right edges */
-        return {XPosition - (Width/2),XPosition + (Width/2)};
+        return {round(XPosition - (Width/2)),round(XPosition + (Width/2))};
     }
 
     glm::vec2 CelGameObject::GetVertualLine(){
-        const float Heigth= this->m_Drawable->GetSize().y;
-        const float YPosition = this->m_Transform.translation.y;
+        const float Heigth= this->m_Drawable->GetSize().y ;
+        const float YPosition = this->m_Transform.translation.y ;
 
         //** x:Left and y:Right edges */
-        return {YPosition - (Heigth/2),YPosition + (Heigth/2)};
+        return {round(YPosition - (Heigth/2)),round(YPosition + (Heigth/2))};
 
     }
 
@@ -38,16 +38,16 @@ namespace CelUtil {
     }
 
     glm::vec2 CelGameObject::GetHorizonLine(float newXPosition) {
-        const float Width = this->m_Drawable->GetSize().x;
+        const float Width = this->m_Drawable->GetSize().x ;
 
         //** x:Left and y:Right edges */
-        return {newXPosition - (Width/2),newXPosition + (Width/2)};
+        return {round (newXPosition - (Width/2)),round(newXPosition + (Width/2))};
     }
 
     glm::vec2 CelGameObject::GetVertualLine(float newYPosition) {
         const float Heigth= this->m_Drawable->GetSize().y;
         //** x:Left and y:Right edges */
-        return {newYPosition - (Heigth/2),newYPosition + (Heigth/2)};
+        return {round(newYPosition - (Heigth/2)),round (newYPosition + (Heigth/2))};
     }
 
     CelGameObject::CelGameObject(std::shared_ptr<CelUtil::CelGameObject> sharedPtr) {

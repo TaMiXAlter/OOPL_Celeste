@@ -39,6 +39,7 @@ namespace Player {
     /**gravity function*/
     private:
         void ApplyGravity();
+        void DetectDrop();
         float m_dropSpeed;
         const float m_dropScaleSpeed = 0.5f;
     /**TouchWall Slide*/

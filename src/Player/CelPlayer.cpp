@@ -40,8 +40,7 @@ namespace Player {
                 break;
 
         }
-
-        LOG_INFO(m_JumpBuffer);
+        LOG_INFO(m_MovementState);
     }
     void CelPlayer::UpdateSolid(std::vector<std::shared_ptr<CelUtil::CelGameObject>> solids) {
         m_solids = solids;
@@ -56,14 +55,11 @@ namespace Player {
             int sign = glm::sign(move);
             while (move != 0){
                 if (!CheckCollides(m_Transform.translation + glm::vec2(sign, 0))){
-                    //There is no Solid immediately beside us so Move
                     m_Transform.translation.x += sign;
                     move -= sign;
                 }
                 else{
-                    /**我不知道為啥放這條就可以動了*/
-                    m_Transform.translation.x -= sign;
-                    //Hit a solid Cancel move
+                    m_speed.x = 0;
                     break;
                 }
             }
@@ -73,20 +69,19 @@ namespace Player {
     void CelPlayer::MoveY(float amount) {
         /**如果沒有碰到地面 isFalling*/
         m_speed.y += amount;
-        int move = glm::round(m_speed.y);
+        float move = glm::round(m_speed.y);
         if (move != 0){
             m_speed.y -= move;
-            int sign = glm::sign(move);
+            float sign = glm::sign(move);
             while (move != 0){
 
-                if (!CheckCollides(m_Transform.translation + glm::vec2(sign, 0))){
+                if (!CheckCollides(m_Transform.translation + glm::vec2(0,sign))){
                     //There is no Solid immediately beside us so Move
                     m_Transform.translation.y += sign;
                     move -= sign;
                 }
                 else{
-                    /**我不知道為啥放這條就可以動了*/
-                    m_Transform.translation.y -= sign;
+                    m_speed.y = 0;
                     break;
                 }
             }
@@ -104,25 +99,32 @@ namespace Player {
     }
 
     bool CelPlayer::OnCollides(std::shared_ptr<CelUtil::CelGameObject> other, glm::vec2 position) {
+        bool XCollideCheck = other->GetHorizonLine().y >= GetHorizonLine(position.x).x&&
+                             GetHorizonLine(position.x).y >= other->GetHorizonLine().x;
+        bool YCollideCheck = other->GetVertualLine().y >= GetVertualLine(position.y).x &&
+                             GetVertualLine(position.y).y >= other->GetVertualLine().x;
 
+        bool TouchTheGround = other->GetVertualLine().y == GetVertualLine(position.y).x;
+        bool TouchTheWall =(GetVertualLine(position.y).y >= other->GetVertualLine().x
+                            ||other->GetVertualLine().y  >= GetVertualLine(position.y).x);
+
+        bool OverSideEage = other->GetHorizonLine().y == GetHorizonLine(position.x).x ||
+                             GetHorizonLine(position.x).y == other->GetHorizonLine().x;
         /**AABB*/
-       if(  other->GetHorizonLine().y >= GetHorizonLine(position.x).x&&
-            GetHorizonLine(position.x).y >= other->GetHorizonLine().x&&
-            other->GetVertualLine().y >= GetVertualLine(position.y).x &&
-            GetVertualLine(position.y).y >= other->GetVertualLine().x ){
+       if(XCollideCheck && YCollideCheck){
+           if(TouchTheGround && m_dropSpeed <= 0){
+               m_MovementState = OnGround;
+               m_dropSpeed = 0;
+           }
+           if((m_MovementState == Falling||m_MovementState == Jumping) && TouchTheWall){
+               m_MovementState = TouchWall;
+           }
+           return true;
+       }
 
-               if(other->GetVertualLine().y == GetVertualLine(position.y).x
-               && m_JumpBuffer <= 0 ){
-                   m_MovementState = OnGround;
-                   m_dropSpeed = 0;
-               }
-               if((m_MovementState == Falling||m_MovementState == Jumping)
-                && (GetVertualLine(position.y).y >= other->GetVertualLine().x
-                ||other->GetVertualLine().y >= GetVertualLine(position.y).x)){
-                   m_MovementState = TouchWall;
-               }
-               return true;
-        }
+       if(m_MovementState == OnGround && OverSideEage){
+           m_MovementState = Falling;
+       }
 
         return false;
     }
@@ -138,6 +140,9 @@ namespace Player {
     }
 
     void CelPlayer::Sliding() {
+        if(m_speed.x != 0){
+            m_MovementState = Falling;
+        }
         MoveY(m_SlideDropSpeed);
     }
 }
