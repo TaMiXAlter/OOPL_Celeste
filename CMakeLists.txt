@@ -20,9 +20,14 @@ add_executable(${PROJECT_NAME}
     ${SRC_FILES}
     ${HEADER_FILES}
         src/Player/CelPlayer.cpp
-        src/Player/CelPlayerController.cpp
-        include/Player/CelPlayerController.h
-        src/Player/CelPlayerController.cpp
+        src/Core/GameManager.cpp
+        include/Core/GameManager.h
+        src/CelUtil/Timer.cpp
+        include/CelUtil/Timer.h
+        src/Player/CelPlayerMovenment.cpp
+        include/Player/CelPlayerMovenment.h
+        src/Player/CelPlayerState.cpp
+        include/Player/CelPlayerState.h
 )
 
 if(MSVC)
