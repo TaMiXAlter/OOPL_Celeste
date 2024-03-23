@@ -9,7 +9,7 @@ namespace Player {
     CelPlayer::CelPlayer(const std::string ImgPath) {
         SetImage(ImgPath);
         m_MovementState = Falling;
-        m_JumpBuffer = 0;
+        m_JumpBuffer = glm::vec2 (0,0);
 
         m_speed = glm::vec2 (0,0);
     }
@@ -17,30 +17,45 @@ namespace Player {
     void CelPlayer::Update() {
         if(Util::Input::IsKeyPressed(Util::Keycode::D)) MoveX(5);
         if(Util::Input::IsKeyPressed(Util::Keycode::A)) MoveX(-5);
-        if(Util::Input::IsKeyDown(Util::Keycode::SPACE) && m_MovementState == OnGround) {
+
+        if(Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
+            switch (m_MovementState) {
+                case OnGround:
+                    m_JumpBuffer = m_JumpUpMax;
+                    break;
+                case TouchLeftWall:
+                    m_JumpBuffer = m_JumpRightUpMax;
+                    break;
+                case TouchRightWall:
+                    m_JumpBuffer = m_JumpLeftUpMax;
+                    break;
+            }
             m_MovementState = Jumping;
-            m_JumpBuffer = m_MaxJumpBuffer;
         };
+
         switch (m_MovementState) {
             case OnGround:
+                m_JumpBuffer = glm::vec2(0,0);
+                m_dropSpeed = 0;
                 break;
-            case TouchWall:
+            case TouchRightWall:
                 Sliding();
-                m_JumpBuffer = 0;
+                m_JumpBuffer = glm::vec2(0,0);
+                m_dropSpeed = 0;
+                break;
+            case TouchLeftWall:
+                Sliding();
+                m_JumpBuffer = glm::vec2(0,0);
+                m_dropSpeed = 0;
                 break;
             case Jumping:
-                Jump();
+                Jump(m_JumpBuffer);
                 ApplyGravity();
-                if(m_JumpBuffer <= 0){
-                    m_MovementState = Falling;
-                }
                 break;
             case Falling:
                 ApplyGravity();
                 break;
-
         }
-        LOG_INFO(m_MovementState);
     }
     void CelPlayer::UpdateSolid(std::vector<std::shared_ptr<CelUtil::CelGameObject>> solids) {
         m_solids = solids;
@@ -74,13 +89,10 @@ namespace Player {
             m_speed.y -= move;
             float sign = glm::sign(move);
             while (move != 0){
-
                 if (!CheckCollides(m_Transform.translation + glm::vec2(0,sign))){
-                    //There is no Solid immediately beside us so Move
                     m_Transform.translation.y += sign;
                     move -= sign;
-                }
-                else{
+                }else{
                     m_speed.y = 0;
                     break;
                 }
@@ -105,8 +117,9 @@ namespace Player {
                              GetVertualLine(position.y).y >= other->GetVertualLine().x;
 
         bool TouchTheGround = other->GetVertualLine().y == GetVertualLine(position.y).x;
-        bool TouchTheWall =(GetVertualLine(position.y).y >= other->GetVertualLine().x
-                            ||other->GetVertualLine().y  >= GetVertualLine(position.y).x);
+
+        bool isTouchRightWall = other->GetVertualLine().y  == GetVertualLine(position.y).x;
+        bool isTouchLeftWall = GetVertualLine(position.y).y == other->GetVertualLine().x;
 
         bool OverSideEage = other->GetHorizonLine().y == GetHorizonLine(position.x).x ||
                              GetHorizonLine(position.x).y == other->GetHorizonLine().x;
@@ -116,8 +129,14 @@ namespace Player {
                m_MovementState = OnGround;
                m_dropSpeed = 0;
            }
-           if((m_MovementState == Falling||m_MovementState == Jumping) && TouchTheWall){
-               m_MovementState = TouchWall;
+           if((m_MovementState == Falling||m_MovementState == Jumping) ){
+               if(isTouchRightWall){
+                   m_MovementState = TouchRightWall;
+                   LOG_DEBUG("touch right wall");
+               }else if(isTouchLeftWall){
+                   m_MovementState = TouchLeftWall;
+               }
+
            }
            return true;
        }
@@ -129,11 +148,13 @@ namespace Player {
         return false;
     }
 
-    void CelPlayer::Jump() {
-        MoveY(m_JumpBuffer);
-        m_JumpBuffer -= glm::pow(Util::Time::GetDeltaTime(),m_JumpDecreaseScaler) ;
+    void CelPlayer::Jump(glm::vec2 DiractionAmount) {
+        MoveWithDiraction(DiractionAmount);
+        m_JumpBuffer += glm::vec2(0,m_JumpDecreaseScalarY) ;
+        if( m_JumpBuffer.y <=0){
+            m_MovementState = Falling;
+        }
     }
-
     void CelPlayer::ApplyGravity() {
         m_dropSpeed -= glm::pow(Util::Time::GetDeltaTime(),m_dropScaleSpeed) ;
         MoveY(m_dropSpeed);
@@ -145,4 +166,11 @@ namespace Player {
         }
         MoveY(m_SlideDropSpeed);
     }
+
+    void CelPlayer::MoveWithDiraction(glm::vec2 DiractionAmount) {
+        MoveX(DiractionAmount.x);
+        MoveY(DiractionAmount.y);
+    }
+
+
 }

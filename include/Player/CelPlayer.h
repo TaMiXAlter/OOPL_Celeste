@@ -2,12 +2,15 @@
 # define PLAYERCONTROLLER_HPP
 
 #include "CelUtil/CelGameObject.hpp"
+#include "Util/Time.hpp"
 
 enum MovementState{
     OnGround,
-    TouchWall,
+    TouchRightWall,
+    TouchLeftWall,
     Falling,
     Jumping,
+    WallJumping,
     Dashing,
 };
 namespace Player {
@@ -21,6 +24,7 @@ namespace Player {
         /**move function*/
         void MoveX(float amount);
         void MoveY(float amount);
+        void MoveWithDiraction(glm::vec2 DiractionAmount);
         /**detect function*/
         bool OnCollides(std::shared_ptr<CelUtil::CelGameObject> other,glm::vec2 position);
         bool CheckCollides(glm::vec2 newPosition);
@@ -29,17 +33,17 @@ namespace Player {
 
     /**jump function*/
     private:
-        void Jump();
-        float m_JumpBuffer;
+        void Jump(glm::vec2 DiractionAmount);
+        glm::vec2 m_JumpBuffer;
+        const glm::vec2 m_JumpUpMax = glm::vec2(0,8);
+        const glm::vec2 m_JumpRightUpMax = glm::vec2(4,8);
+        const glm::vec2 m_JumpLeftUpMax = glm::vec2(-4,8);
 
-
-        const float m_MaxJumpBuffer = 8;
-        const float m_JumpDecreaseScaler = 0.5f;
+        const float m_JumpDecreaseScalarY = -glm::pow(Util::Time::GetDeltaTime(),0.5);
 
     /**gravity function*/
     private:
         void ApplyGravity();
-        void DetectDrop();
         float m_dropSpeed;
         const float m_dropScaleSpeed = 0.5f;
     /**TouchWall Slide*/
