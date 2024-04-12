@@ -1,18 +1,14 @@
 #include "App.hpp"
 
-#include "CelUtil/CelGameObject.hpp"
+#include "Object/CelGameObject.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
-
+#include "Util/Input.hpp"
 
 void App::Update() {
 
-//    LOG_INFO(AllObject.size());
-    for (int i = 0; i < int(AllObject.size()); ++i) {
-        AllObject[i]->Draw();
-    }
-
+    m_CelMapManager->DrawALL();
     m_Player->Update();
     m_Player->Draw();
     /*

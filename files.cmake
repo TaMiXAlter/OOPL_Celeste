@@ -4,16 +4,18 @@ set(SRC_FILES
     AppEnd.cpp
 
 
-    CelUtil/CelGameObject.cpp
+    Object/CelGameObject.cpp
     Player/CelPlayer.cpp
+    Player/CelPlayerMovement.cpp
     
 )
 
 set(INCLUDE_FILES
     App.hpp
-    
-    CelUtil/CelGameObject.hpp
+
+    Object/CelGameObject.hpp
     Player/CelPlayer.hpp
+    Player/CelPlayerMovement.h
     
 )
 

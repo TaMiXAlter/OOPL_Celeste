@@ -1,13 +1,17 @@
 
-#include "CelUtil/CelGameObject.hpp"
+#include "Object/CelGameObject.hpp"
 #include <glm/fwd.hpp>
 #include "Util/Image.hpp"
 
-namespace CelUtil {
+namespace Object {
 
+
+    CelGameObject::CelGameObject() {
+        //for gird
+        m_Transform.scale = glm::vec2 {2,2};
+    }
     CelGameObject::CelGameObject(const std::string& ImagePath,glm::vec2 Initposition){
         SetImage(ImagePath);
-
         this->m_Transform.translation = Initposition;
     }
 
@@ -16,7 +20,7 @@ namespace CelUtil {
     }
 
     glm::vec2 CelGameObject::GetHorizonLine(){
-        const float Width = this->m_Drawable->GetSize().x;
+        const float Width = this->GetScaledSize().x;
         const float XPosition = this->m_Transform.translation.x;
         
         //** x:Left and y:Right edges */
@@ -24,10 +28,10 @@ namespace CelUtil {
     }
 
     glm::vec2 CelGameObject::GetVertualLine(){
-        const float Heigth= this->m_Drawable->GetSize().y ;
+        const float Heigth= this->GetScaledSize().y;
         const float YPosition = this->m_Transform.translation.y ;
 
-        //** x:Left and y:Right edges */
+        //** x:Bottom  and y:Top edges */
         return {round(YPosition - (Heigth/2)),round(YPosition + (Heigth/2))};
 
     }
@@ -38,22 +42,23 @@ namespace CelUtil {
     }
 
     glm::vec2 CelGameObject::GetHorizonLine(float newXPosition) {
-        const float Width = this->m_Drawable->GetSize().x ;
+        const float Width = this->GetScaledSize().x;
 
         //** x:Left and y:Right edges */
         return {round (newXPosition - (Width/2)),round(newXPosition + (Width/2))};
     }
 
     glm::vec2 CelGameObject::GetVertualLine(float newYPosition) {
-        const float Heigth= this->m_Drawable->GetSize().y;
-        //** x:Left and y:Right edges */
+        const float Heigth= this->GetScaledSize().y;
+        //** x:Bottom and y:Top edges */
         return {round(newYPosition - (Heigth/2)),round (newYPosition + (Heigth/2))};
     }
 
-    CelGameObject::CelGameObject(std::shared_ptr<CelUtil::CelGameObject> sharedPtr) {
+    CelGameObject::CelGameObject(std::shared_ptr<Object::CelGameObject> sharedPtr) {
         m_Drawable = sharedPtr->m_Drawable;
         m_Transform = sharedPtr->m_Transform;
     }
+
 
 
 }

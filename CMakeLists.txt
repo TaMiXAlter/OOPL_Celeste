@@ -24,10 +24,22 @@ add_executable(${PROJECT_NAME}
         include/Core/GameManager.h
         src/CelUtil/Timer.cpp
         include/CelUtil/Timer.h
-        src/Player/CelPlayerMovenment.cpp
-        include/Player/CelPlayerMovenment.h
+        src/Player/CelPlayerMovement.cpp
+        include/Player/CelPlayerMovement.h
         src/Player/CelPlayerState.cpp
         include/Player/CelPlayerState.h
+        src/Player/CelPlayerMovement.cpp
+        src/Object/CelSpringObject.cpp
+        include/Object/CelSpringObject.h
+        src/Object/CelSolidObject.cpp
+        include/Object/CelSolidObject.h
+        src/Player/CelPlayerMovement.cpp
+        src/Level/CelMapManager.cpp
+        include/Level/CelMapManager.h
+        include/Level/CelLevels.h
+        include/Object/CelSpikeObject.h
+        src/Object/CelSpikeObject.cpp
+        include/Level/CelSolidPaths.h
 )
 
 if(MSVC)

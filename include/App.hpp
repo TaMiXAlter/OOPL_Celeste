@@ -1,11 +1,13 @@
 #ifndef APP_HPP
 #define APP_HPP
 
-#include "CelUtil/CelGameObject.hpp"
+#include "Object/CelGameObject.hpp"
 #include "Player/CelPlayer.h"
 #include "pch.hpp" // IWYU pragma: export
+#include "Object/CelSolidObject.h"
+#include "Object/CelSpringObject.h"
 #include <memory>
-
+#include "Level/CelMapManager.h"
 class App {
 public:
     enum class State {
@@ -28,11 +30,7 @@ private:
 private:
     State m_CurrentState = State::START;
 
-    /**GameObjects*/
-    std::shared_ptr<CelUtil::CelGameObject> m_CelTestObject;
-    std::shared_ptr<CelUtil::CelGameObject> m_Floor;
-    /** Collection of Solid*/
-    std::vector<std::shared_ptr<CelUtil::CelGameObject>> AllObject;
+    std::shared_ptr<Level::CelMapManager> m_CelMapManager;
 
     std::shared_ptr<Player::CelPlayer> m_Player;
 };
