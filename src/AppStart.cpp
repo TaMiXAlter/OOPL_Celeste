@@ -1,17 +1,13 @@
 #include "App.hpp"
 #include "Player/CelPlayer.h"
 #include "Util/Logger.hpp"
-#include "Util/Root.hpp"
+#include "Util/Renderer.hpp"
 #include <memory>
-
+#include "Core/GameManager.h"
 void App::Start() {
     LOG_TRACE("Start");
     m_CurrentState = State::UPDATE;
 
-    /**creat player */
-    m_Player = std::make_shared<Player::CelPlayer>(RESOURCE_DIR"/Imgs/Celeste_Player/0.png");
-    m_CelMapManager = std::make_shared<Level::CelMapManager>(m_Player);
-    m_Player->UpdateSolid(m_CelMapManager->AllObject);
-    m_Player->KillPlayer();
-
+    GM = std::make_shared<Core::GameManager>();
+    GM->Awake();
 }

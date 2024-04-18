@@ -184,8 +184,8 @@ namespace Player{
                         m_canDash = true;
                         m_dropSpeed = 0;
                     }
-                    else if(isTouchLeftWall(SolidObj,position)) m_MovementState = TouchLeftWall;
-                    else if(isTouchRightWall(SolidObj,position)) m_MovementState = TouchRightWall;
+                    else if(isTouchLeftWall(SolidObj,position) && Util::Input::IsKeyPressed(Util::Keycode::A)) m_MovementState = TouchLeftWall;
+                    else if(isTouchRightWall(SolidObj,position) && Util::Input::IsKeyPressed(Util::Keycode::D)) m_MovementState = TouchRightWall;
                     return true;
                 }
                 else{

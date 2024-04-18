@@ -5,17 +5,18 @@
 #include "Level/CelMapManager.h"
 #include "Object/CelSolidObject.h"
 #include "Object/CelSpikeObject.h"
+#include "Core/GameManager.h"
 using std::string;
 namespace Level {
 
-    CelMapManager::CelMapManager(std::shared_ptr<Player::CelPlayer> setPlayer) {
-        m_player = setPlayer;
+    CelMapManager::CelMapManager(Core::GameManager* GM) {
+        m_GM = GM;
         //todo:: change this to different logic
         InitLevel();
     }
 
     void CelMapManager::DrawALL() {
-        for(int i = 0 ;i<AllObject.size();i++){
+        for(long unsigned int i = 0 ;i < AllObject.size();i++){
             AllObject[i]->Draw();
         }
     }
@@ -26,16 +27,16 @@ namespace Level {
             for (int x = 0; x < 16; ++x) {
                 //get position
                 glm::vec2 currentPosition = m_StartPoint + glm::vec2 (m_TileWidth * x, -m_TileHeight * y);
-                switch (Levels->Level1.MapGrid[y][x]) {
-                    case 1:
+                switch (Levels->LevelContainer[0][x+y*m_GridWidth]) {
+                    case 'p':
                         //todo:: need to fix in future
-                        m_player->SetSpawnPosition(currentPosition);
+                        m_GM->GetPlayer().SetSpawnPosition(currentPosition);
                         break;
-                    case 2:
+                    case 's':
                         //todo: add different solid logic ,from now only mid solid
-                        AllObject.push_back(std::make_shared<Object::CelSolidObject>(GetSolidPath(Levels->Level1,x,y),currentPosition));
+                        AllObject.push_back(std::make_shared<Object::CelSolidObject>(GetSolidPath(Levels->LevelContainer[0],x,y),currentPosition));
                         break;
-                    case 3:
+                    case 'k':
                         AllObject.push_back(std::make_shared<Object::CelSpikeObject>(currentPosition));
                         break;
                 }
@@ -43,11 +44,11 @@ namespace Level {
         }
     }
 
-    std::string CelMapManager::GetSolidPath(CelBase LevelData, int deltaX, int deltaY) {
-        bool Top = deltaY-1 == -1 ||LevelData.MapGrid[deltaY-1][deltaX] == 2;
-        bool Bottom = deltaY+1 == 16  ||LevelData.MapGrid[deltaY+1][deltaX] == 2;
-        bool Right = deltaX+1 == 16 ||LevelData.MapGrid[deltaY][deltaX+1] == 2;
-        bool Left = deltaX-1 == -1 ||LevelData.MapGrid[deltaY][deltaX-1] == 2;
+    std::string CelMapManager::GetSolidPath(const char* LevelData, int x, int y) {
+        bool Top = y-1 == -1 ||LevelData[x+(y-1)*m_GridWidth] == 's';
+        bool Bottom = y+1 == 16  ||LevelData[x+(y+1)*m_GridWidth] == 's';
+        bool Right = x+1 == 16 ||LevelData[(x+1)+y*m_GridWidth] == 's';
+        bool Left = x-1 == -1 ||LevelData[(x-1)+y*m_GridWidth] == 's';
 
         /**全部的可能性
          * 1.都沒有 mono

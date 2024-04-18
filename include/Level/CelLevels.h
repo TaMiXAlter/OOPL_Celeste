@@ -7,36 +7,30 @@
 #include "../Object/CelGameObject.hpp"
 #include "../../PTSD/lib/glm/glm/vec2.hpp"
 
+static  const  char* s_Level1 ="sssssssssssss,,s"
+                              "ssssssss,,,,,,,s"
+                              "ssss,,,,,,,,,,,s"
+                              "sss,,,,,,,,,,sss"
+                              "sss,,,,,,,,,ssss"
+                              "sss,,,,,,,,,,,ss"
+                              "sssss,,,,,,,,,,s"
+                              "ss,,,,,,,,,,,,,s"
+                              "s,,,,,,,,,,,,,,s"
+                              "s,,,,,,,,,,,,sss"
+                              ",,,,,,,,,,,,,,ss"
+                              ",,,,,,,,,,,,,,ss"
+                              ",p,ss,,ss,,,,,ss"
+                              "sssss,,ss,,kkkss"
+                              "sssss,,sskksssss"
+                              "ssssskksssssssss";
 namespace Level{
-    struct CelBase{
-        /**
-         * 0 = empty
-         * 1 = playerSpawnPoint
-         * 2 = solid
-         * 3 = spike
-         * */
-        int MapGrid[16][16];
-    };
+
     class CelLevels{
     public:
-        CelBase Level1{
-                {{2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,2},
-                 {2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,2},
-                 {2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,2},
-                 {2,2,2,0,0,0,0,0,0,0,0,0,0,2,2,2},
-                 {2,2,2,0,0,0,0,0,0,0,0,0,2,2,2,2},
-                 {2,2,2,0,0,0,0,0,0,0,0,0,0,0,2,2},
-                 {2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,2},
-                 {2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
-                 {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
-                 {2,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2},
-                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2},
-                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2},
-                 {0,1,0,2,2,0,0,2,2,0,0,0,0,0,2,2},
-                 {2,2,2,2,2,0,0,2,2,0,0,3,3,3,2,2},
-                 {2,2,2,2,2,0,0,2,2,3,3,2,2,2,2,2},
-                 {2,2,2,2,2,3,3,2,2,2,2,2,2,2,2,2}}
-        } ;
+        inline CelLevels(){
+            LevelContainer.push_back(s_Level1);
+        };
+        std::vector<const char*> LevelContainer;
     };
 }
 #endif //PICO8_CELESTE_CELLEVELS_H

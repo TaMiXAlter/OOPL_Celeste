@@ -8,7 +8,7 @@
 namespace Player {
     class CelPlayer: public Object::CelGameObject{
     public:
-        CelPlayer(const std::string ImgPath);
+        CelPlayer();
         void Update();
 
         void UpdateSolid(std::vector<std::shared_ptr<Object::CelGameObject>> solids);

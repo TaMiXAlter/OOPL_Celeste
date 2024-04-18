@@ -4,8 +4,8 @@
 #include "Util/Logger.hpp"
 namespace Player {
 
-    CelPlayer::CelPlayer(const std::string ImgPath) {
-        SetImage(ImgPath);
+    CelPlayer::CelPlayer() {
+        SetImage(RESOURCE_DIR"/Imgs/Celeste_Player/0.png");
         m_isAlive = true;
     }
 
@@ -34,7 +34,7 @@ namespace Player {
     }
 
     void CelPlayer::SetSpawnPosition(glm::vec2 newPosition) {
-        m_SpawnPosition = newPosition;
+        m_SpawnPosition = newPosition+glm::vec2(0,2) ;
     }
 
 

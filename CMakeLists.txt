@@ -4,7 +4,7 @@ project(Pico8_Celeste)
 set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(PTSD)
-add_library(Framework ${PTSD_SRC_FILES} $<TARGET_OBJECTS:PracticalToolsForSimpleDesign>)
+#add_library(Framework ${PTSD_SRC_FILES} $<TARGET_OBJECTS:PTSD>)
 
 include(files.cmake)
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
@@ -39,7 +39,8 @@ add_executable(${PROJECT_NAME}
         include/Level/CelLevels.h
         include/Object/CelSpikeObject.h
         src/Object/CelSpikeObject.cpp
-        include/Level/CelSolidPaths.h
+        include/CelUtil/Singleton.h
+        src/Object/CelGameObject.cpp
 )
 
 if(MSVC)
@@ -59,11 +60,12 @@ target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${DEPENDENCY_INCLUDE_D
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/PTSD/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-target_link_libraries(Framework
-    ${DEPENDENCY_LINK_LIBRARIES}
-)
+#target_link_libraries(Framework
+#    ${DEPENDENCY_LINK_LIBRARIES}
+#)
 
 target_link_libraries(${PROJECT_NAME}
     SDL2::SDL2main
-    Framework
+#    Framework
+        PTSD
 )

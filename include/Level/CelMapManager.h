@@ -9,6 +9,11 @@
 #include "config.hpp"
 #include "Player/CelPlayer.h"
 #include "CelLevels.h"
+#include "Object/CelGameObject.hpp"
+
+namespace Core{
+    class GameManager;
+}
 namespace Level {
     class CelMapManager {
     /**
@@ -16,16 +21,16 @@ namespace Level {
      * 為16*16的tile組合而成
      * */
     public:
-        CelMapManager(std::shared_ptr<Player::CelPlayer> setPlayer);
+        CelMapManager(Core::GameManager* GM);
         void DrawALL();
         void LoadLevel(int delta);
         void LoadNextLevel();
         std::vector<std::shared_ptr<Object::CelGameObject>> AllObject;
     private:
         void InitLevel();
-        std::string GetSolidPath(CelBase LevelData,int deltaX,int deltaY);
+        std::string GetSolidPath(const char* LevelData, int deltaX, int deltaY);
         std::string CombineString(std::string addString);
-        std::shared_ptr<Player::CelPlayer> m_player;
+        Core::GameManager* m_GM;
         int m_LevelNow;
         /**container of objects*/
     private:

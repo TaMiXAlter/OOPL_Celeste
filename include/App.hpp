@@ -30,9 +30,8 @@ private:
 private:
     State m_CurrentState = State::START;
 
-    std::shared_ptr<Level::CelMapManager> m_CelMapManager;
-
-    std::shared_ptr<Player::CelPlayer> m_Player;
+    /**creat GM */
+    std::shared_ptr<Core::GameManager > GM;
 };
 
 #endif
