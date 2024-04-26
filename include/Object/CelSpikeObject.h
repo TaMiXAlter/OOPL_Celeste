@@ -11,6 +11,7 @@ namespace Object{
     class CelSpikeObject :public CelGameObject{
     public:
         CelSpikeObject(glm::vec2 Initposition = glm::vec2(0,0));
+        glm::vec2 GetVertualLine() override;
     };
 }
 #endif //PICO8_CELESTE_CELSPIKEOBJECT_H

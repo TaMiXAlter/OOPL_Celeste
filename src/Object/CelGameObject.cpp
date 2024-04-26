@@ -2,7 +2,7 @@
 #include "Object/CelGameObject.hpp"
 #include <glm/fwd.hpp>
 #include "Util/Image.hpp"
-
+#include "Util/Animation.hpp"
 namespace Object {
 
 
@@ -17,6 +17,11 @@ namespace Object {
 
     void CelGameObject::SetImage(const std::string& ImagePath){
         m_Drawable = std::make_shared<Util::Image>(ImagePath);
+    }
+
+    void CelGameObject::SetAnimation(const std::vector<std::string> &paths, bool play,
+                                     std::size_t interval, bool looping ,std::size_t cooldown) {
+        m_Drawable = std::make_shared<Util::Animation>(paths,play,interval);
     }
 
     glm::vec2 CelGameObject::GetHorizonLine(){
@@ -58,6 +63,7 @@ namespace Object {
         m_Drawable = sharedPtr->m_Drawable;
         m_Transform = sharedPtr->m_Transform;
     }
+
 
 
 

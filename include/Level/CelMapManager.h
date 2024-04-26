@@ -23,16 +23,12 @@ namespace Level {
     public:
         CelMapManager(Core::GameManager* GM);
         void DrawALL();
-        void LoadLevel(int delta);
-        void LoadNextLevel();
+        void LoadLevel(int LevelNum);
         std::vector<std::shared_ptr<Object::CelGameObject>> AllObject;
     private:
-        void InitLevel();
         std::string GetSolidPath(const char* LevelData, int deltaX, int deltaY);
         std::string CombineString(std::string addString);
         Core::GameManager* m_GM;
-        int m_LevelNow;
-        /**container of objects*/
     private:
         /**propety*/
         const int m_GridWidth = 16;

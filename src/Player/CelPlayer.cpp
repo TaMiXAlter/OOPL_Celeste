@@ -6,6 +6,7 @@ namespace Player {
 
     CelPlayer::CelPlayer() {
         SetImage(RESOURCE_DIR"/Imgs/Celeste_Player/0.png");
+        m_Transform.scale = glm::vec2 (1.8 ,1.8);
         m_isAlive = true;
     }
 

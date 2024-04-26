@@ -7,10 +7,14 @@
 
 namespace CelUtil{
     class Timer {
+    /**60fps*/
     public:
-        static bool WaitForSeconds(unsigned long time);
+        bool WaitForSeconds(unsigned long time);
+        void ReturnZero();
+        //save by ms
+        int currentTime();
     private:
-        static unsigned long m_nowTime;
+        unsigned long m_CountFrame =0 ;
     };
 }
 

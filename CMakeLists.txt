@@ -39,8 +39,11 @@ add_executable(${PROJECT_NAME}
         include/Level/CelLevels.h
         include/Object/CelSpikeObject.h
         src/Object/CelSpikeObject.cpp
-        include/CelUtil/Singleton.h
         src/Object/CelGameObject.cpp
+        src/Object/CelBoxObject.cpp
+        include/Object/CelBoxObject.h
+        src/Object/CelBalloonObject.cpp
+        include/Object/CelBalloonObject.h
 )
 
 if(MSVC)

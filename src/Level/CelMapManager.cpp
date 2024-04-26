@@ -5,6 +5,8 @@
 #include "Level/CelMapManager.h"
 #include "Object/CelSolidObject.h"
 #include "Object/CelSpikeObject.h"
+#include "Object/CelSpringObject.h"
+#include "Object/CelBoxObject.h"
 #include "Core/GameManager.h"
 using std::string;
 namespace Level {
@@ -12,32 +14,41 @@ namespace Level {
     CelMapManager::CelMapManager(Core::GameManager* GM) {
         m_GM = GM;
         //todo:: change this to different logic
-        InitLevel();
     }
 
     void CelMapManager::DrawALL() {
         for(long unsigned int i = 0 ;i < AllObject.size();i++){
+            AllObject[i]->Update();
             AllObject[i]->Draw();
         }
     }
 
-    void CelMapManager::InitLevel() {
-        std::string SolidPath = RESOURCE_DIR"/Imgs/Celeste_Solid1/mid1.png";
+    void CelMapManager::LoadLevel(int LevelNum) {
+        if(LevelNum > Levels->LevelContainer.size()){
+            LOG_ERROR("Out of Map Array");
+            return;
+        }
+        AllObject.clear();
         for(int y = 0; y < 16; y++){
             for (int x = 0; x < 16; ++x) {
                 //get position
                 glm::vec2 currentPosition = m_StartPoint + glm::vec2 (m_TileWidth * x, -m_TileHeight * y);
-                switch (Levels->LevelContainer[0][x+y*m_GridWidth]) {
+                switch (Levels->LevelContainer[LevelNum-1][x+y*m_GridWidth]) {
                     case 'p':
                         //todo:: need to fix in future
                         m_GM->GetPlayer().SetSpawnPosition(currentPosition);
                         break;
                     case 's':
-                        //todo: add different solid logic ,from now only mid solid
-                        AllObject.push_back(std::make_shared<Object::CelSolidObject>(GetSolidPath(Levels->LevelContainer[0],x,y),currentPosition));
+                        AllObject.push_back(std::make_shared<Object::CelSolidObject>(GetSolidPath(Levels->LevelContainer[LevelNum-1],x,y),currentPosition));
                         break;
                     case 'k':
                         AllObject.push_back(std::make_shared<Object::CelSpikeObject>(currentPosition));
+                        break;
+                    case 'S':
+                        AllObject.push_back(std::make_shared<Object::CelSpringObject>(currentPosition));
+                        break;
+                    case 'b':
+                        AllObject.push_back(std::make_shared<Object::CelBoxObject>(currentPosition));
                         break;
                 }
             }
@@ -95,7 +106,6 @@ namespace Level {
             return CombineString("mono");//1
         }
     }
-
     std::string CelMapManager::CombineString(std::string addString) {
         return RESOURCE_DIR"/Imgs/Celeste_Solid1/"+addString+".png";
     }
