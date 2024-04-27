@@ -10,7 +10,7 @@
 namespace Object{
     class CelSpikeObject :public CelGameObject{
     public:
-        CelSpikeObject(glm::vec2 Initposition = glm::vec2(0,0));
+        CelSpikeObject(glm::vec2 Initposition = glm::vec2(0,0),float Rota = 0);
         glm::vec2 GetVertualLine() override;
     };
 }

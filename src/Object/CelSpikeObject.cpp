@@ -3,10 +3,11 @@
 //
 #include "Object/CelSpikeObject.h"
 namespace Object{
-    CelSpikeObject::CelSpikeObject(glm::vec2 Initposition) {
+    CelSpikeObject::CelSpikeObject(glm::vec2 Initposition,float Rota) {
         SetImage(RESOURCE_DIR"/Imgs/Celeste_objects/spikes.png");
         m_Transform.translation = Initposition;
         m_Transform.scale = glm::vec2(1.9,1.9);
+        m_Transform.rotation = glm::radians(Rota);
     }
 
     glm::vec2 CelSpikeObject::GetVertualLine() {

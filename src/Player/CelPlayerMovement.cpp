@@ -7,7 +7,7 @@
 #include "Util/Keycode.hpp"
 #include "Util/Input.hpp"
 #include "Util/Logger.hpp"
-
+#include "Util/Time.hpp"
 #include "Object/CelSpringObject.h"
 #include "Object/CelSolidObject.h"
 #include "Object/CelSpikeObject.h"
@@ -18,27 +18,29 @@ namespace Player{
 
     CelPlayerMovement::CelPlayerMovement(CelPlayer* Owner) {
         m_owner = Owner;
-
         ResetValue();
     }
 
     void CelPlayerMovement::UPDATE() {
-        LOG_INFO(m_DashAmount);
+        LOG_INFO(m_MovementState);
         //todo: Save the input
-        if (Util::Input::IsKeyPressed(Util::Keycode::D)) {
+        if (Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
             Run(m_RunSpeed);
             m_direction.x = 1;
         }
-        if (Util::Input::IsKeyPressed(Util::Keycode::A)) {
+        else if (Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
             Run(-m_RunSpeed);
             m_direction.x = -1;
+        }else if(Util::Input::IsKeyPressed(Util::Keycode::UP) ||Util::Input::IsKeyPressed(Util::Keycode::DOWN)){
+            m_direction.x = 0;
         }
+
         if (m_MovementState != Dashing) {
-            if (Util::Input::IsKeyPressed(Util::Keycode::W)) m_direction.y = 1;
-            else if (Util::Input::IsKeyPressed(Util::Keycode::S)) m_direction.y = -1;
+            if (Util::Input::IsKeyPressed(Util::Keycode::UP)) m_direction.y = 1;
+            else if (Util::Input::IsKeyPressed(Util::Keycode::DOWN)) m_direction.y = -1;
             else m_direction.y = 0;
         }
-        if (Util::Input::IsKeyPressed(Util::Keycode::LSHIFT)) {
+        if (Util::Input::IsKeyPressed(Util::Keycode::X)) {
             if (m_DashAmount > 0) {
                 m_DashAmount--;
                 m_MovementState = Dashing;
@@ -46,7 +48,7 @@ namespace Player{
                 m_canRun = false;
             }
         }
-        if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
+        if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
             switch (m_MovementState) {
                 case OnGround:
                     m_JumpBuffer = m_JumpUpMax;
@@ -83,7 +85,6 @@ namespace Player{
                 break;
             case Jumping:
                 Jump(m_JumpBuffer);
-                ApplyGravity();
                 break;
             case Falling:
                 ApplyGravity();
@@ -148,16 +149,12 @@ namespace Player{
     /**Move Function*/
     void CelPlayerMovement::Jump(glm::vec2 DirectionAmount) {
         MoveWithDirection(DirectionAmount);
-        m_JumpBuffer.y -= m_JumpDecreaseScalarY ;
-        if( m_JumpBuffer.y <=0)m_MovementState = Falling;
+        m_JumpBuffer.y *= m_JumpDecreaseScalarY;
+        if(m_JumpBuffer.y <=0.1){m_MovementState = Falling; m_dropSpeed = -2;};
     }
     void CelPlayerMovement::ApplyGravity() {
-        if(Util::Input::IsKeyPressed(Util::Keycode::SPACE)) m_dropScaleSpeed =0.15f;
-        else m_dropScaleSpeed = 0.3f;
-        m_dropSpeed -= m_dropScaleSpeed;
+        m_dropSpeed *= m_dropScaleSpeed;
         MoveY(m_dropSpeed);
-        /**Apply jump Movement*/
-        if(m_JumpBuffer.x != 0)MoveX(m_JumpBuffer.x);
     }
 
     void CelPlayerMovement::Sliding() {
@@ -172,7 +169,7 @@ namespace Player{
         }
     }
     void CelPlayerMovement::Dash(){
-        if(m_dashDuration == 0) m_MovementState = Falling;
+        if(m_dashDuration == 0) {m_MovementState = Falling; m_dropSpeed = -2;}
         MoveWithDirection(m_direction * m_dashBuffer);
         m_canRun = false;
         m_dashDuration--;
@@ -192,8 +189,8 @@ namespace Player{
                         m_DashAmount = maxDashAmount;
                         m_dropSpeed = 0;
                     }
-                    else if(isTouchLeftWall(SolidObj,position) && Util::Input::IsKeyPressed(Util::Keycode::A)) m_MovementState = TouchLeftWall;
-                    else if(isTouchRightWall(SolidObj,position) && Util::Input::IsKeyPressed(Util::Keycode::D)) m_MovementState = TouchRightWall;
+                    else if(isTouchLeftWall(SolidObj,position) && Util::Input::IsKeyPressed(Util::Keycode::LEFT)) m_MovementState = TouchLeftWall;
+                    else if(isTouchRightWall(SolidObj,position) && Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) m_MovementState = TouchRightWall;
                     return true;
                 }
                 else{
@@ -222,18 +219,18 @@ namespace Player{
                         m_DashAmount = maxDashAmount;
                         m_dropSpeed = 0;
                     }
-                    else if(isTouchLeftWall(BoxObj,position) && Util::Input::IsKeyPressed(Util::Keycode::A)){
+                    else if(isTouchLeftWall(BoxObj,position) && Util::Input::IsKeyPressed(Util::Keycode::LEFT)){
                         m_MovementState = TouchLeftWall;
                         if(BoxObj->GetBoxState() == BoxState::Idel)BoxObj->StartBroken();
                     }
-                    else if(isTouchRightWall(BoxObj,position) && Util::Input::IsKeyPressed(Util::Keycode::D)){
+                    else if(isTouchRightWall(BoxObj,position) && Util::Input::IsKeyPressed(Util::Keycode::RIGHT)){
                         m_MovementState = TouchRightWall;
                         if(BoxObj->GetBoxState() == BoxState::Idel)BoxObj->StartBroken();
                     }
                     return true;
                 }else{
-                    if(m_MovementState == TouchRightWall || m_MovementState == TouchLeftWall) m_MovementState = Falling;
-                    if(isOverEage(other,position)) m_MovementState = Falling;
+                    if(m_MovementState == TouchRightWall || m_MovementState == TouchLeftWall) {m_MovementState = Falling; m_dropSpeed = -2;};
+                    if(isOverEage(other,position)) m_MovementState = Falling; m_dropSpeed = -2;;
                 }
             }else if(std::shared_ptr<Object::CelBalloonObject> Balloon = std::dynamic_pointer_cast<Object::CelBalloonObject>(other)){
                 ResetDashAmount();
@@ -265,7 +262,7 @@ namespace Player{
         return XCollideCheck && YCollideCheck;
     }
     bool CelPlayerMovement::isOnGround(const std::shared_ptr<Object::CelGameObject> other, glm::vec2 position) {
-        return  other->GetVertualLine().y == m_owner->GetVertualLine(position.y).x && m_dropSpeed <= 0;
+        return  other->GetVertualLine().y == m_owner->GetVertualLine(position.y).x && m_dropSpeed <= 0.1;
     }
     bool CelPlayerMovement::isOverEage(const std::shared_ptr<Object::CelGameObject> other, glm::vec2 position) {
         return (other->GetHorizonLine().y == m_owner->GetHorizonLine(position.x).x
@@ -275,13 +272,13 @@ namespace Player{
     bool CelPlayerMovement::isTouchRightWall(const std::shared_ptr<Object::CelGameObject> other, glm::vec2 position) {
         return (m_MovementState == Falling||m_MovementState == Jumping )
         && other->GetHorizonLine().y  >= m_owner->GetHorizonLine(position.y).x
-        && Util::Input::IsKeyPressed(Util::Keycode::D);
+        && Util::Input::IsKeyPressed(Util::Keycode::RIGHT);
 
     }
     bool CelPlayerMovement::isTouchLeftWall(const std::shared_ptr<Object::CelGameObject> other, glm::vec2 position) {
         return (m_MovementState == Falling||m_MovementState == Jumping )
         && m_owner->GetHorizonLine(position.y).y >= other->GetHorizonLine().x
-        && Util::Input::IsKeyPressed(Util::Keycode::A);
+        && Util::Input::IsKeyPressed(Util::Keycode::LEFT);
     }
 
 

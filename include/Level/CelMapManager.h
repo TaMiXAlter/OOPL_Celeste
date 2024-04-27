@@ -26,8 +26,12 @@ namespace Level {
         void LoadLevel(int LevelNum);
         std::vector<std::shared_ptr<Object::CelGameObject>> AllObject;
     private:
+        /**Auto Adap */
+        /*solid**/
         std::string GetSolidPath(const char* LevelData, int deltaX, int deltaY);
         std::string CombineString(std::string addString);
+        /*Spike **/
+        float GetAutoRotation(const char* LevelData,int MyX,int MyY);
         Core::GameManager* m_GM;
     private:
         /**propety*/

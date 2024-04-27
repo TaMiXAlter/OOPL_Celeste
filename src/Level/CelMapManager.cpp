@@ -3,11 +3,13 @@
 //
 
 #include "Level/CelMapManager.h"
+#include "Core/GameManager.h"
+
 #include "Object/CelSolidObject.h"
 #include "Object/CelSpikeObject.h"
 #include "Object/CelSpringObject.h"
 #include "Object/CelBoxObject.h"
-#include "Core/GameManager.h"
+#include "Object/CelBalloonObject.h"
 using std::string;
 namespace Level {
 
@@ -42,13 +44,17 @@ namespace Level {
                         AllObject.push_back(std::make_shared<Object::CelSolidObject>(GetSolidPath(Levels->LevelContainer[LevelNum-1],x,y),currentPosition));
                         break;
                     case 'k':
-                        AllObject.push_back(std::make_shared<Object::CelSpikeObject>(currentPosition));
+                        AllObject.push_back(std::make_shared<Object::CelSpikeObject>(currentPosition, GetAutoRotation(Levels->LevelContainer[LevelNum-1],x,y)));
+                        LOG_INFO(GetAutoRotation(Levels->LevelContainer[LevelNum-1],x,y));
                         break;
                     case 'S':
                         AllObject.push_back(std::make_shared<Object::CelSpringObject>(currentPosition));
                         break;
                     case 'b':
                         AllObject.push_back(std::make_shared<Object::CelBoxObject>(currentPosition));
+                        break;
+                    case 'B':
+                        AllObject.push_back(std::make_shared<Object::CelBalloonObject>(currentPosition));
                         break;
                 }
             }
@@ -108,6 +114,18 @@ namespace Level {
     }
     std::string CelMapManager::CombineString(std::string addString) {
         return RESOURCE_DIR"/Imgs/Celeste_Solid1/"+addString+".png";
+    }
+
+    float CelMapManager::GetAutoRotation(const char* LevelData, int x, int y) {
+        bool Top = y-1 == -1 ||LevelData[x+(y-1)*m_GridWidth] == 's';
+        bool Bottom = y+1 == 16  ||LevelData[x+(y+1)*m_GridWidth] == 's';
+        bool Right = x+1 == 16 ||LevelData[(x+1)+y*m_GridWidth] == 's';
+        bool Left = x-1 == -1 ||LevelData[(x-1)+y*m_GridWidth] == 's';
+
+        if(Top) return 180;
+        if(Bottom) return 0;
+        if(Right) return 90;
+        if(Left) return 270;
     }
 
 

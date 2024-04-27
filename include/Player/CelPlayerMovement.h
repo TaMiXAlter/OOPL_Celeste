@@ -12,7 +12,12 @@
 namespace Player{
     class CelPlayer;
 }
-
+/**todo:
+ * 1. 蹬牆跳再飛到最高點時直接落下
+ *  a. 蹬牆跳應該要摸到牆就可以觸發
+ *  b. 摸到牆的時候會停在牆上一段時間
+ * 2. Box方塊不移動不會掉下去的問題
+ * 3. 儲存輸入控制*/
 enum MovementState{
     OnGround,
     TouchRightWall,
@@ -55,20 +60,20 @@ namespace Player{
     private:
         void Jump(glm::vec2 DirectionAmount);
 
-        const glm::vec2 m_JumpUpMax = glm::vec2(0,9);
-        const glm::vec2 m_JumpRightUpMax = glm::vec2(4,9);
-        const glm::vec2 m_JumpLeftUpMax = glm::vec2(-4,9);
+        const glm::vec2 m_JumpUpMax = glm::vec2(0,12.f);
+        const glm::vec2 m_JumpRightUpMax = glm::vec2(2.5f,12.f);
+        const glm::vec2 m_JumpLeftUpMax = glm::vec2(-2.5f,12.f);
     public:
         glm::vec2 m_JumpBuffer;
     private:
         /**Spring Jump*/
         const glm::vec2 m_SpringJumpMax = glm::vec2 (0, 11);
-        const float m_JumpDecreaseScalarY = 0.2f;
+        const float m_JumpDecreaseScalarY = 0.8f;
 
         /**gravity*/
     private:
         void ApplyGravity();
-        float m_dropScaleSpeed = 0.3f;
+        const float m_dropScaleSpeed = 1.15f;
     public:
         float m_dropSpeed;
         /**TouchWall Slide*/
