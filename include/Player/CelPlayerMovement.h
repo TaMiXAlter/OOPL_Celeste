@@ -61,19 +61,20 @@ namespace Player{
         void Jump(glm::vec2 DirectionAmount);
 
         const glm::vec2 m_JumpUpMax = glm::vec2(0,12.f);
-        const glm::vec2 m_JumpRightUpMax = glm::vec2(2.5f,12.f);
-        const glm::vec2 m_JumpLeftUpMax = glm::vec2(-2.5f,12.f);
+        const glm::vec2 m_JumpRightUpMax = glm::vec2(3.f,12.f);
+        const glm::vec2 m_JumpLeftUpMax = glm::vec2(-3.f,12.f);
     public:
         glm::vec2 m_JumpBuffer;
     private:
         /**Spring Jump*/
-        const glm::vec2 m_SpringJumpMax = glm::vec2 (0, 11);
+        const glm::vec2 m_SpringJumpMax = m_JumpUpMax*glm::vec2 (0,2);
         const float m_JumpDecreaseScalarY = 0.8f;
 
         /**gravity*/
     private:
         void ApplyGravity();
         const float m_dropScaleSpeed = 1.15f;
+        void ResetGravity(){m_dropSpeed = -1;}
     public:
         float m_dropSpeed;
         /**TouchWall Slide*/
