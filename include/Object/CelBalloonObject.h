@@ -9,7 +9,10 @@
 namespace Object{
     class CelBalloonObject : public Object::CelGameObject{
     public:
-        CelBalloonObject(glm::vec2 Initposition);
+        CelBalloonObject(glm::vec2 Initposition){
+            SetImage(RESOURCE_DIR"/Imgs/Celeste_objects/balloon.png");
+            this->m_Transform.translation = Initposition;
+        };
     };
 }
 

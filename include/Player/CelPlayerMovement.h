@@ -13,7 +13,7 @@ namespace Player{
     class CelPlayer;
 }
 /**todo:
- * 1. 蹬牆跳再飛到最高點時直接落下
+ *  1. move will switch into falling
  *  a. 蹬牆跳應該要摸到牆就可以觸發
  *  b. 摸到牆的時候會停在牆上一段時間
  * 2. Box方塊不移動不會掉下去的問題

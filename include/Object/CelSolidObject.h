@@ -10,7 +10,10 @@ namespace Object{
 
     class CelSolidObject : public CelGameObject {
     public:
-        CelSolidObject(const std::string& ImagePath,glm::vec2 Initposition = glm::vec2(0,0));
+        CelSolidObject(const std::string& ImagePath,glm::vec2 Initposition = glm::vec2(0,0)){
+            SetImage(ImagePath);
+            m_Transform.translation = Initposition;
+        };
     };
 
 } // Object

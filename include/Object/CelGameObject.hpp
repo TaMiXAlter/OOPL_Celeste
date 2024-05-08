@@ -1,8 +1,8 @@
 #ifndef CELGAMEOBJECT_HPP
 #define CELGAMEOBJECT_HPP
 
-#include "../../PTSD/include/Util/GameObject.hpp"
-#include "../../../../../../usr/include/c++/11/string"
+#include "Util/GameObject.hpp"
+#include "string"
 
 namespace Object {
 class CelGameObject:public Util::GameObject{

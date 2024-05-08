@@ -12,9 +12,11 @@
  * p = playerSpawn
  * S = spring
  * b = box
- * B = Balloon*/
+ * B = Balloon
+ * CC = GoLeftCloud
+ * cc = GoRightCloud*/
  //todo: better Data saving
-static const char* s_tempLevel= "ssssssssssss,,ssssssssssssss,,ssssssssssssss,,ssssssssssssss,,sssssss,sss,,,,,ss,,sss,,,,,,,,,ss,,kkk,,,,,,,,sss,,,,,,,,,,,,,sss,,,,,,,,,B,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,p,,,,,,,,,,,,,,sss,,,,,,,,,,,,,sssssss,,,,,,,sssssssss,,,sssssssssssss,,,ssssss";
+static const char* s_tempLevel ="ssssss,,,,ssssssssssss,,,,ssssssssss,,,,,,,,ssssssk,,,,,,,,,,kssssk,,,,,,,,,,ksssskc,,,kk,,c,ksss,,,,,kssk,,,,,ss,,,,,,,,,,,,,,ss,C,,,,,,,C,,,,s,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,c,,,,,c,,,,,c,,,,,,,,,,,,,,,,,C,,,,,C,,,,,C,,,,,p,,,,,,,,,,,,,,sss,,,,,,,,,,,,";
 namespace Level{
 
     class CelLevels{
@@ -27,7 +29,8 @@ namespace Level{
                 "ssssssssssss,,,sssssss,,,,ss,,,sssss,,,,,,ss,,,ssss,,,,,,,ss,,,ssss,,,,,,,s,,,,ssss,,,,k,,s,,,,ss,,,,,,s,,,,,,ssssss,,,s,,,,,,ssssss,,,s,,,,,,ssssss,,,s,,,,,,ssssss,,,s,,,,,sssssss,,,s,,,,,,,s,,ss,,,s,,,,,,,s,,,s,,,skkk,,,,,,p,,,,,ssss,,,,,sssssssssss,,,,,",
                 "ssssssss,,,,ssssssssss,,,,,,,sssssssss,,,,,,,ssssssss,,,,,,,,,sss,sss,,,,,,,,,,s,,,ssss,,,,,,,,,,,,,ssskkkk,,,,,,,,,sssssss,,,,,,,,,,,,,ss,,,,ss,,,,,,,,,,,,,,ss,,,,,,,,,,,,,,ss,,,,,,,kkkk,,,ss,,,,,,,ssss,,,ss,p,,,,,,ss,,,,sssss,,S,,ss,,,Ssssss,,s,,ss,,,sss",
                 "sssss,,,ssssssss,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sss,,,,,,,,,,,,,ssss,,,,,,,,,,,,,ss,,,,,,,,,,,,,,ss,,,,bb,,,,,,,,ss,,,,,,,,,,,,,,ss,,,,,,,,,,,,,,ss,,,bb,,,,,,,,,ss,,,,,,,,,,,,,,ss,,,,,,bb,p,,,,,,,,,,,,,,ssss,,,,,,,,bb,,ssss,,,,bb,,,,,,ssssbb,,,,,,,,,,",
-                "ss,,,sssssssssss,,,,,s,,,,,,,,ss,,,,,,,,,,,,,,,s,,,sss,,,,,,,,,s,,,,,,,,,,kk,,,s,,,,,,,,,,ss,,,,,,,,,,kk,,ss,,,,,,,,,,ss,,ss,,,,,,,,,,s,,,sss,,,,,,,,,s,,,,ss,,,,,,,,,s,,,,,,,,,,p,,,,s,,,,,,,,,ssss,,s,,,,,,,,,,,s,,,s,,,,sssss,,s,,,s,,,,,s,,,,,s,,,s,,,,,s,,,"
+                "ss,,,sssssssssss,,,,,s,,,,,,,,ss,,,,,,,,,,,,,,,s,,,sss,,,,,,,,,s,,,,,,,,,,kk,,,s,,,,,,,,,,ss,,,,,,,,,,kk,,ss,,,,,,,,,,ss,,ss,,,,,,,,,,s,,,sss,,,,,,,,,s,,,,ss,,,,,,,,,s,,,,,,,,,,p,,,,s,,,,,,,,,ssss,,s,,,,,,,,,,,s,,,s,,,,sssss,,s,,,s,,,,,s,,,,,s,,,s,,,,,s,,,",
+                "ssssssssssss,,ssssssssssssss,,ssssssssssssss,,ssssssssssssss,,sssssss,sss,,,,,ss,,sss,,,,,,,,,ss,,kkk,,,,,,,,sss,,,,,,,,,,,,,sss,,,,,,,,,B,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,p,,,,,,,,,,,,,,sss,,,,,,,,,,,,,sssssss,,,,,,,sssssssss,,,sssssssssssss,,,ssssss"
         };
     };
 }

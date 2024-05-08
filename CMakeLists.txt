@@ -29,21 +29,19 @@ add_executable(${PROJECT_NAME}
         src/Player/CelPlayerState.cpp
         include/Player/CelPlayerState.h
         src/Player/CelPlayerMovement.cpp
-        src/Object/CelSpringObject.cpp
         include/Object/CelSpringObject.h
-        src/Object/CelSolidObject.cpp
         include/Object/CelSolidObject.h
         src/Player/CelPlayerMovement.cpp
         src/Level/CelMapManager.cpp
         include/Level/CelMapManager.h
         include/Level/CelLevels.h
         include/Object/CelSpikeObject.h
-        src/Object/CelSpikeObject.cpp
         src/Object/CelGameObject.cpp
         src/Object/CelBoxObject.cpp
         include/Object/CelBoxObject.h
-        src/Object/CelBalloonObject.cpp
         include/Object/CelBalloonObject.h
+        src/Object/CelCloudObject.cpp
+        include/Object/CelCloudObject.h
 )
 
 if(MSVC)

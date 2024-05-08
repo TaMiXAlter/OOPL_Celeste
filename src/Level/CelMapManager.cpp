@@ -10,6 +10,8 @@
 #include "Object/CelSpringObject.h"
 #include "Object/CelBoxObject.h"
 #include "Object/CelBalloonObject.h"
+#include "Object/CelCloudObject.h"
+
 using std::string;
 namespace Level {
 
@@ -35,6 +37,7 @@ namespace Level {
             for (int x = 0; x < 16; ++x) {
                 //get position
                 glm::vec2 currentPosition = m_StartPoint + glm::vec2 (m_TileWidth * x, -m_TileHeight * y);
+                glm::vec2 nextPosition = m_StartPoint + glm::vec2 (m_TileWidth * (x+1), -m_TileHeight * y);
                 switch (Levels->LevelContainer[LevelNum-1][x+y*m_GridWidth]) {
                     case 'p':
                         //todo:: need to fix in future
@@ -55,6 +58,14 @@ namespace Level {
                         break;
                     case 'B':
                         AllObject.push_back(std::make_shared<Object::CelBalloonObject>(currentPosition));
+                        break;
+                    case 'C':
+                        AllObject.push_back(std::make_shared<Object::CelCloudObject>(currentPosition,-1,true));
+                        AllObject.push_back(std::make_shared<Object::CelCloudObject>(nextPosition,-1,false));
+                        break;
+                    case 'c':
+                        AllObject.push_back(std::make_shared<Object::CelCloudObject>(currentPosition,1,true));
+                        AllObject.push_back(std::make_shared<Object::CelCloudObject>(nextPosition,1,false));
                         break;
                 }
             }

@@ -8,10 +8,15 @@
 #include "CelGameObject.hpp"
 namespace Object {
 
+/**todo: Spring on Box*/
 class CelSpringObject: public Object::CelGameObject{
 public:
-    CelSpringObject(glm::vec2 Initposition = glm::vec2(0,0));
+    CelSpringObject(glm::vec2 Initposition = glm::vec2(0,0)){
+        SetImage(RESOURCE_DIR"/Imgs/Celeste_objects/spring1.png");
+        m_Transform.translation = Initposition;
+        m_Transform.scale = glm::vec2(2,2);
     };
+};
 
 } // Object
 

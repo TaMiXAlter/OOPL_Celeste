@@ -22,7 +22,6 @@ namespace Player{
     }
 
     void CelPlayerMovement::UPDATE() {
-        LOG_INFO(m_dropSpeed);
         //todo: Save the input
         if (Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
             Run(m_RunSpeed);
@@ -49,7 +48,7 @@ namespace Player{
             }
         }
         if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-            if(m_MovementState != Jumping && m_MovementState != Falling){
+            if(m_MovementState != Jumping){
                 switch (m_MovementState) {
                     case OnGround:
                         m_JumpBuffer = m_JumpUpMax;
@@ -194,7 +193,7 @@ namespace Player{
                 }
                 else{
                     if(m_MovementState == TouchRightWall || m_MovementState == TouchLeftWall) m_MovementState = Falling;
-                    if(isOverEage(other,position)) m_MovementState = Falling;
+                    if(isOverEage(other,position)) {m_MovementState = Falling; ResetGravity();}
                 }
             }else if (std::shared_ptr<Object::CelSpringObject> SpringObj = std::dynamic_pointer_cast<Object::CelSpringObject>(other)){
                 /**If TouchSpring*/
