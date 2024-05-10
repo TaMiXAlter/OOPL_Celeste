@@ -30,6 +30,11 @@ namespace Core {
             m_MapManager->LoadLevel(m_LevelNow);
             m_player->UpdateSolid(m_MapManager->AllObject);
             m_player->KillPlayer();
+        }else if(Util::Input::IsKeyDown(Util::Keycode::S)){
+            m_LevelNow --;
+            m_MapManager->LoadLevel(m_LevelNow);
+            m_player->UpdateSolid(m_MapManager->AllObject);
+            m_player->KillPlayer();
         }
     }
 

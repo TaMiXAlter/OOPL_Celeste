@@ -9,7 +9,6 @@
 #include "CelGameObject.hpp"
 #include "Util/Animation.hpp"
 /**issue:
- * 1. 玩家不動的話不會掉下去 PlayerMovement
  * 2. 玩家死掉不會刷新方塊*/
 enum BoxState{
     Idel,

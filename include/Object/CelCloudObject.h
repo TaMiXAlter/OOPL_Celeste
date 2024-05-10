@@ -19,8 +19,8 @@ namespace Object {
             m_Transform.translation = Initposition;
             m_Direction = Direction;
         }
+        float GetMovement() const{return m_MoveSpeed * m_Direction;}
         void Update() override;
-        glm::vec2 GetHorizonLine() override;
         glm::vec2 GetVertualLine() override;
     private:
         float m_Direction;

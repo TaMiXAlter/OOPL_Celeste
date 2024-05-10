@@ -11,14 +11,10 @@ namespace Object {
         if(this->m_Transform.translation.x>320) this->m_Transform.translation.x = -256;
         else if(this->m_Transform.translation.x<-320) this->m_Transform.translation.x = 256;
 
-        this->m_Transform.translation.x += m_MoveSpeed*m_Direction;
-    }
-
-    glm::vec2 CelCloudObject::GetHorizonLine() {
-        return {-300,-300};
+        this->m_Transform.translation.x += GetMovement();
     }
 
     glm::vec2 CelCloudObject::GetVertualLine() {
-        return {0,CelGameObject::GetVertualLine().y};
+        return {m_Transform.translation.y,CelGameObject::GetVertualLine().y};
     }
 } // Object

@@ -17,7 +17,6 @@ namespace Level {
 
     CelMapManager::CelMapManager(Core::GameManager* GM) {
         m_GM = GM;
-        //todo:: change this to different logic
     }
 
     void CelMapManager::DrawALL() {
@@ -28,7 +27,7 @@ namespace Level {
     }
 
     void CelMapManager::LoadLevel(int LevelNum) {
-        if(LevelNum > Levels->LevelContainer.size()){
+        if(LevelNum > Levels->LevelContainer.size() || LevelNum < 1){
             LOG_ERROR("Out of Map Array");
             return;
         }
@@ -48,7 +47,6 @@ namespace Level {
                         break;
                     case 'k':
                         AllObject.push_back(std::make_shared<Object::CelSpikeObject>(currentPosition, GetAutoRotation(Levels->LevelContainer[LevelNum-1],x,y)));
-                        LOG_INFO(GetAutoRotation(Levels->LevelContainer[LevelNum-1],x,y));
                         break;
                     case 'S':
                         AllObject.push_back(std::make_shared<Object::CelSpringObject>(currentPosition));

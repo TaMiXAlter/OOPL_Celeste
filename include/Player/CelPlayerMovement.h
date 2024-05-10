@@ -16,7 +16,6 @@ namespace Player{
  *  1. move will switch into falling
  *  a. 蹬牆跳應該要摸到牆就可以觸發
  *  b. 摸到牆的時候會停在牆上一段時間
- * 2. Box方塊不移動不會掉下去的問題
  * 3. 儲存輸入控制*/
 enum MovementState{
     OnGround,
@@ -24,7 +23,7 @@ enum MovementState{
     TouchLeftWall,
     Falling,
     Jumping,
-    Dashing,
+    Dashing
 };
 namespace Player{
     class CelPlayerMovement {
@@ -42,14 +41,14 @@ namespace Player{
     private:
         bool OnCollides(const std::vector<std::shared_ptr<Object::CelGameObject>>& objs, glm::vec2 position);
         /**detect bool*/
-        bool isSolids(std::shared_ptr<Object::CelGameObject> other, glm::vec2 position);
-        bool isOnGround(std::shared_ptr<Object::CelGameObject> other, glm::vec2 position);
-        bool isTouchRightWall(std::shared_ptr<Object::CelGameObject> other, glm::vec2 position);
-        bool isTouchLeftWall(std::shared_ptr<Object::CelGameObject> other, glm::vec2 position);
-        bool isOverEage(std::shared_ptr<Object::CelGameObject> other, glm::vec2 position);
+        bool isSolids(const std::shared_ptr<Object::CelGameObject>& other, glm::vec2 position);
+        bool isOnGround(const std::shared_ptr<Object::CelGameObject>& other, glm::vec2 position);
+        bool isTouchRightWall(const std::shared_ptr<Object::CelGameObject>& other, glm::vec2 position);
+        bool isTouchLeftWall(const std::shared_ptr<Object::CelGameObject>& other, glm::vec2 position);
         /**other object*/
-        bool isOnSpring(std::shared_ptr<Object::CelGameObject> other, glm::vec2 position);
-        bool isOnSpike(std::shared_ptr<Object::CelGameObject> other, glm::vec2 position);
+        bool isOnSpring(const std::shared_ptr<Object::CelGameObject>& other, glm::vec2 position);
+        bool isOnSpike(const std::shared_ptr<Object::CelGameObject>& other, glm::vec2 position);
+        bool isOnCloud(const std::shared_ptr<Object::CelGameObject>& Cloud, glm::vec2 position);
         /**Horizon Movement*/
     private:
         const float m_RunSpeed = 3.5f;
@@ -60,32 +59,32 @@ namespace Player{
     private:
         void Jump(glm::vec2 DirectionAmount);
 
-        const glm::vec2 m_JumpUpMax = glm::vec2(0,12.f);
-        const glm::vec2 m_JumpRightUpMax = glm::vec2(3.f,12.f);
-        const glm::vec2 m_JumpLeftUpMax = glm::vec2(-3.f,12.f);
+        const glm::vec2 m_JumpUpMax = glm::vec2(0,15.f);
+        const glm::vec2 m_JumpRightUpMax = glm::vec2(4.f,15.f);
+        const glm::vec2 m_JumpLeftUpMax = glm::vec2(-4.f,15.f);
     public:
         glm::vec2 m_JumpBuffer;
     private:
         /**Spring Jump*/
-        const glm::vec2 m_SpringJumpMax = m_JumpUpMax*glm::vec2 (0,2);
-        const float m_JumpDecreaseScalarY = 0.8f;
+        const glm::vec2 m_SpringJumpMax = m_JumpUpMax*glm::vec2 (0,1.5);
+        const float m_JumpDecreaseScalarY = 0.85f;
 
         /**gravity*/
     private:
         void ApplyGravity();
-        const float m_dropScaleSpeed = 1.15f;
+        const float m_dropScaleSpeed = 1.05f;
+        const float m_slowDropScaleSpeed = 1.02;
         void ResetGravity(){m_dropSpeed = -1;}
     public:
         float m_dropSpeed;
         /**TouchWall Slide*/
     private:
-        void Sliding();
         const float m_SlideDropSpeed = -3 ;
         /**Dash*/
     private:
         void Dash();
         const float m_dashBuffer = 9.5;
-        float m_dashDuration;
+        float m_dashDuration = 0;
         int m_DashAmount = 1;
     public:
         int maxDashAmount = 1;
