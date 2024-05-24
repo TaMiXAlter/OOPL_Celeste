@@ -2,9 +2,11 @@
 // Created by tami on 2024/4/19.
 //
 
+#include <functional>
 #include "Object/CelBoxObject.h"
 #include "Util/Animation.hpp"
 #include "Util/Time.hpp"
+using namespace std;
 namespace Object {
     CelBoxObject::CelBoxObject(glm::vec2 Initposition) {
         m_BoxState = BoxState::Idel;
@@ -57,6 +59,4 @@ namespace Object {
         }
         return CelGameObject::GetVertualLine();
     }
-
-
 } // Object

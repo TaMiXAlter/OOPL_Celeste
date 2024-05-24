@@ -11,6 +11,7 @@
 #include "Object/CelBoxObject.h"
 #include "Object/CelBalloonObject.h"
 #include "Object/CelCloudObject.h"
+#include "Object/CelCoinObject.h"
 
 using std::string;
 namespace Level {
@@ -27,32 +28,50 @@ namespace Level {
     }
 
     void CelMapManager::LoadLevel(int LevelNum) {
+        /**remove this in better way*/
+        std::shared_ptr<Object::CelSpringObject> tempSpring;
         if(LevelNum > Levels->LevelContainer.size() || LevelNum < 1){
             LOG_ERROR("Out of Map Array");
             return;
         }
         AllObject.clear();
+        const char* LevelData = Levels->LevelContainer[LevelNum-1];
         for(int y = 0; y < 16; y++){
             for (int x = 0; x < 16; ++x) {
                 //get position
                 glm::vec2 currentPosition = m_StartPoint + glm::vec2 (m_TileWidth * x, -m_TileHeight * y);
                 glm::vec2 nextPosition = m_StartPoint + glm::vec2 (m_TileWidth * (x+1), -m_TileHeight * y);
-                switch (Levels->LevelContainer[LevelNum-1][x+y*m_GridWidth]) {
+                switch (LevelData[x+y*m_GridWidth]) {
                     case 'p':
                         //todo:: need to fix in future
                         m_GM->GetPlayer().SetSpawnPosition(currentPosition);
                         break;
                     case 's':
-                        AllObject.push_back(std::make_shared<Object::CelSolidObject>(GetSolidPath(Levels->LevelContainer[LevelNum-1],x,y),currentPosition));
+                        AllObject.push_back(std::make_shared<Object::CelSolidObject>(GetSolidPath(LevelData,x,y),currentPosition));
                         break;
                     case 'k':
-                        AllObject.push_back(std::make_shared<Object::CelSpikeObject>(currentPosition, GetAutoRotation(Levels->LevelContainer[LevelNum-1],x,y)));
+                        AllObject.push_back(std::make_shared<Object::CelSpikeObject>(currentPosition, GetAutoRotation(LevelData,x,y)));
                         break;
                     case 'S':
-                        AllObject.push_back(std::make_shared<Object::CelSpringObject>(currentPosition));
+                        if(LevelData[x+(y+1)*m_GridWidth] == 'b'){
+                            tempSpring =  std::make_shared<Object::CelSpringObject>(currentPosition,true);
+                            AllObject.push_back(tempSpring);
+                        }else{
+                            AllObject.push_back(std::make_shared<Object::CelSpringObject>(currentPosition,false));
+                        }
                         break;
                     case 'b':
-                        AllObject.push_back(std::make_shared<Object::CelBoxObject>(currentPosition));
+                        if(LevelData[x+(y-1)*m_GridWidth] == 'S'){
+                            std::shared_ptr<Object::CelBoxObject> box = std::make_shared<Object::CelBoxObject>(currentPosition);
+                            if(tempSpring){
+                                tempSpring->AddOnBounceFunction(std::string ("BoxBroken"),[box](){box->StartBroken();});
+                            }else{
+                                LOG_ERROR("Can't Find Target Spring ");
+                            }
+                            AllObject.push_back(box);
+                        }else{
+                            AllObject.push_back(std::make_shared<Object::CelBoxObject>(currentPosition));
+                        }
                         break;
                     case 'B':
                         AllObject.push_back(std::make_shared<Object::CelBalloonObject>(currentPosition));
@@ -65,6 +84,8 @@ namespace Level {
                         AllObject.push_back(std::make_shared<Object::CelCloudObject>(currentPosition,1,true));
                         AllObject.push_back(std::make_shared<Object::CelCloudObject>(nextPosition,1,false));
                         break;
+                    case 'd':
+                        AllObject.push_back(std::make_shared<Object::CelCoinObject>(currentPosition));
                 }
             }
         }

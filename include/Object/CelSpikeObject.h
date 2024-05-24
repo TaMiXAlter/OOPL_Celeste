@@ -20,8 +20,9 @@ namespace Object{
             const float Heigth= this->GetScaledSize().y;
             const float YPosition = this->m_Transform.translation.y ;
 
-            return {round(YPosition - (Heigth/2)),round(YPosition)};
+            return {round(YPosition + (Heigth/4)),round(YPosition - (Heigth/4))};
         }
+
     };
 }
 #endif //PICO8_CELESTE_CELSPIKEOBJECT_H
