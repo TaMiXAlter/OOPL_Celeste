@@ -42,6 +42,8 @@ add_executable(${PROJECT_NAME}
         include/Object/CelBalloonObject.h
         src/Object/CelCloudObject.cpp
         include/Object/CelCloudObject.h
+        src/Object/CelSpringOBject.cpp
+        include/Object/CelCoinObject.h
 )
 
 if(MSVC)

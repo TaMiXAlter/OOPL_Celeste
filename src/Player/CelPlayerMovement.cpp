@@ -14,9 +14,9 @@
 #include "Object/CelBoxObject.h"
 #include "Object/CelBalloonObject.h"
 #include "Object/CelCloudObject.h"
+#include "Object/CelCoinObject.h"
 
 namespace Player{
-
     CelPlayerMovement::CelPlayerMovement(CelPlayer* Owner) {
         m_owner = Owner;
         ResetValue();
@@ -43,7 +43,7 @@ namespace Player{
             else m_direction.y = 0;
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::X)) {
-            if (m_DashAmount > 0) {
+            if (m_DashAmount > 0 && m_MovementState != Dashing) {
                 m_DashAmount--;
                 m_MovementState = Dashing;
                 m_dashDuration = 10;
@@ -103,6 +103,7 @@ namespace Player{
         m_MovementState = OnGround;
         m_JumpBuffer = glm::vec2 (0,0);
         m_speed = glm::vec2 (0,0);
+        ResetDashAmount();
         ResetGravity();
         m_canRun = true;
         ApplyCollide = true;
@@ -187,10 +188,14 @@ namespace Player{
                         m_DashAmount = maxDashAmount;
                         ResetGravity();
                     }
-                    else if(isTouchLeftWall(SolidObj,position) && Util::Input::IsKeyPressed(Util::Keycode::LEFT))
-                    {m_MovementState = TouchLeftWall;ResetGravity();}
-                    else if(isTouchRightWall(SolidObj,position) && Util::Input::IsKeyPressed(Util::Keycode::RIGHT))
-                    {m_MovementState = TouchRightWall;ResetGravity();}
+                    else if(isTouchLeftWall(SolidObj,position) && Util::Input::IsKeyPressed(Util::Keycode::LEFT)){
+                        m_MovementState = TouchLeftWall;
+                        ResetGravity();
+                    }
+                    else if(isTouchRightWall(SolidObj,position) && Util::Input::IsKeyPressed(Util::Keycode::RIGHT)){
+                        m_MovementState = TouchRightWall;
+                        ResetGravity();
+                    }
                     return true;
                 }
                 else{
@@ -199,6 +204,7 @@ namespace Player{
             }else if (std::shared_ptr<Object::CelSpringObject> SpringObj = std::dynamic_pointer_cast<Object::CelSpringObject>(other)){
                 /**If TouchSpring*/
                 if(isOnSpring(SpringObj, position)){
+                    SpringObj->OnBounce();
                     m_DashAmount = maxDashAmount;
                     ResetGravity();
                     m_JumpBuffer = m_SpringJumpMax;
@@ -230,18 +236,28 @@ namespace Player{
                     }
                     return true;
                 }else{
-                    if(m_MovementState == TouchRightWall || m_MovementState == TouchLeftWall) {m_MovementState = Falling; ResetGravity();};
+                    if(m_MovementState == TouchRightWall || m_MovementState == TouchLeftWall) {
+                        m_MovementState = Falling;
+                        ResetGravity();
+                    }
                 }
             }else if(std::shared_ptr<Object::CelBalloonObject> Balloon = std::dynamic_pointer_cast<Object::CelBalloonObject>(other)){
-                ResetDashAmount();
+                if(isSolids(Balloon,position)){
+                    ResetDashAmount();
+                }
             }else if(std::shared_ptr<Object::CelCloudObject> Cloud = std::dynamic_pointer_cast<Object::CelCloudObject>(other)){
                 if(isOnCloud(Cloud,position)){
                    m_MovementState = OnGround;
                     m_DashAmount = maxDashAmount;
                     ResetGravity();
                     MoveX(Cloud->GetMovement());
-                    LOG_INFO("OnCloud");
                     return true;
+                }
+            }else if(std::shared_ptr<Object::CelCoinObject> Coin = std::dynamic_pointer_cast<Object::CelCoinObject>(other)){
+                if(isSolids(Coin,position)){
+                    Coin->Disable();
+                    SetMaxDashAmount(2);
+                    m_owner->SetImage(RESOURCE_DIR"/Imgs/Celeste_Player/9.png");
                 }
             }
         }

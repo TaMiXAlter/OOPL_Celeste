@@ -22,7 +22,6 @@ public:
     glm::vec2 GetHorizonLine(float newXPosition);
     glm::vec2 GetVertualLine(float newYPosition);
 
-protected:
     /**Set IMG*/
     void SetImage(const std::string& ImagePath);
     void SetAnimation(const std::vector<std::string> &paths, bool play,

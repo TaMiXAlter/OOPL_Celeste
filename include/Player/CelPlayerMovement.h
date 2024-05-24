@@ -81,19 +81,19 @@ namespace Player{
     private:
         const float m_SlideDropSpeed = -3 ;
         /**Dash*/
+    public:
+        void ResetDashAmount(){
+            m_DashAmount = maxDashAmount;
+        };
+        void SetMaxDashAmount(int Delta){
+            maxDashAmount = Delta;
+        }
     private:
         void Dash();
         const float m_dashBuffer = 9.5;
         float m_dashDuration = 0;
         int m_DashAmount = 1;
-    public:
         int maxDashAmount = 1;
-        void ResetDashAmount(){
-            m_DashAmount = maxDashAmount;
-        };
-        void SetMaxDashAmount(int Delta){
-            maxDashAmount+=1;
-        }
         /***/
     private:
         MovementState m_MovementState;

@@ -42,6 +42,9 @@ namespace Object {
     private:
         const unsigned long m_BrokenTotalTime = m_animInterval*3;
         const unsigned long m_ReviveTotalTime = 3000;
+    private:
+        std::map<std::string,std::function<void()>> DestroyEvent;
+        std::map<std::string,std::function<void()>> ReviveEvent;
     };
 
 } // Object
