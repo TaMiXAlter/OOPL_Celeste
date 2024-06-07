@@ -5,16 +5,24 @@
 namespace Player {
 
     CelPlayer::CelPlayer() {
-        SetImage(RESOURCE_DIR"/Imgs/Celeste_Player/0.png");
+        SetImage(RESOURCE_DIR"/Imgs/Celeste_Player/6.png");
         m_Transform.scale = glm::vec2 (1.8 ,1.8);
         m_isAlive = true;
     }
 
     void CelPlayer::Update() {
         m_playerMovement->UPDATE();
-        if(m_Transform.translation.y <=-360 ) KillPlayer();
-        if(!m_isAlive) RevivePlayer();
-
+        switch (m_playerMovement->GetDashAmount()) {
+            case 0:
+                SetImage(RESOURCE_DIR"/Imgs/Celeste_Player/8.png");
+                break;
+            case 1:
+                SetImage(RESOURCE_DIR"/Imgs/Celeste_Player/6.png");
+                break;
+            case 2:
+                SetImage(RESOURCE_DIR"/Imgs/Celeste_Player/9.png");
+                break;
+        }
     }
     void CelPlayer::UpdateSolid(std::vector<std::shared_ptr<Object::CelGameObject>> solids) {
         m_solids = solids;

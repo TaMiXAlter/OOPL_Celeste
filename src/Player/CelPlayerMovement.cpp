@@ -214,6 +214,7 @@ namespace Player{
             }else if(std::shared_ptr<Object::CelSpikeObject> SpikeObj = std::dynamic_pointer_cast<Object::CelSpikeObject>(other)){
                 if(isOnSpike(SpikeObj, position)){
                     m_owner->KillPlayer();
+                    m_owner->m_isAlive = false;
                 }
             }else if(std::shared_ptr<Object::CelBoxObject> BoxObj = std::dynamic_pointer_cast<Object::CelBoxObject>(other)){
                 if(isSolids(BoxObj,position)){

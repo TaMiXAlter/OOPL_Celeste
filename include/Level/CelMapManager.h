@@ -25,6 +25,10 @@ namespace Level {
         void DrawALL();
         void LoadLevel(int LevelNum);
         std::vector<std::shared_ptr<Object::CelGameObject>> AllObject;
+        /**Revive*/
+        void ReviveAll();
+    private:
+        std::vector<std::shared_ptr<Object::CelGameObject>> m_ObjectsToRevive;
     private:
         /**Auto Adap */
         /*solid**/

@@ -21,6 +21,8 @@ namespace Player {
 
         glm::vec2 m_SpawnPosition;
         std::vector<std::shared_ptr<Object::CelGameObject>> m_solids;
+        /**Revive*/
+    public:
         bool m_isAlive;
         void RevivePlayer();
     };

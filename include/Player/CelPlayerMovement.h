@@ -88,6 +88,9 @@ namespace Player{
         void SetMaxDashAmount(int Delta){
             maxDashAmount = Delta;
         }
+        int GetDashAmount(){
+            return m_DashAmount;
+        }
     private:
         void Dash();
         const float m_dashBuffer = 9.5;
