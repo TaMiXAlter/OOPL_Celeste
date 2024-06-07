@@ -15,6 +15,7 @@
 #include "Object/CelBalloonObject.h"
 #include "Object/CelCloudObject.h"
 #include "Object/CelCoinObject.h"
+#include "Object/Fruit/CelFruit.h"
 
 namespace Player{
     CelPlayerMovement::CelPlayerMovement(CelPlayer* Owner) {
@@ -185,7 +186,7 @@ namespace Player{
                 if(isSolids(SolidObj, position)){
                     if(isOnGround(SolidObj,position)){
                         m_MovementState = OnGround;
-                        m_DashAmount = maxDashAmount;
+                        m_DashAmount = m_MaxDashAmount;
                         ResetGravity();
                     }
                     else if(isTouchLeftWall(SolidObj,position) && Util::Input::IsKeyPressed(Util::Keycode::LEFT)){
@@ -205,7 +206,7 @@ namespace Player{
                 /**If TouchSpring*/
                 if(isOnSpring(SpringObj, position)){
                     SpringObj->OnBounce();
-                    m_DashAmount = maxDashAmount;
+                    m_DashAmount = m_MaxDashAmount;
                     ResetGravity();
                     m_JumpBuffer = m_SpringJumpMax;
                     m_MovementState = Jumping;
@@ -222,7 +223,7 @@ namespace Player{
                         if(BoxObj->GetBoxState() == BoxState::Broken) m_MovementState = Falling;
                         if(BoxObj->GetBoxState() == BoxState::Idel)BoxObj->StartBroken();
                         m_MovementState = OnGround;
-                        m_DashAmount = maxDashAmount;
+                        m_DashAmount = m_MaxDashAmount;
                         ResetGravity();
                     }
                     else if(isTouchLeftWall(BoxObj,position) && Util::Input::IsKeyPressed(Util::Keycode::LEFT)){
@@ -249,7 +250,7 @@ namespace Player{
             }else if(std::shared_ptr<Object::CelCloudObject> Cloud = std::dynamic_pointer_cast<Object::CelCloudObject>(other)){
                 if(isOnCloud(Cloud,position)){
                    m_MovementState = OnGround;
-                    m_DashAmount = maxDashAmount;
+                    m_DashAmount = m_MaxDashAmount;
                     ResetGravity();
                     MoveX(Cloud->GetMovement());
                     return true;
@@ -258,7 +259,17 @@ namespace Player{
                 if(isSolids(Coin,position)){
                     Coin->Disable();
                     SetMaxDashAmount(2);
-                    m_owner->SetImage(RESOURCE_DIR"/Imgs/Celeste_Player/9.png");
+                }
+            }else if(std::shared_ptr<Object::CelFruit> Fruit = std::dynamic_pointer_cast<Object::CelFruit>(other)){
+                if(isSolids(Fruit,position)){
+                    Fruit->Disable();
+                    m_owner->FruitPoint++;
+                }
+
+                if(Fruit->GetisFlyingFruit()){
+                    if(m_DashAmount< m_MaxDashAmount){
+                        Fruit->FlyAway();
+                    }
                 }
             }
         }

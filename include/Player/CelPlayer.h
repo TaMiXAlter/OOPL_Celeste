@@ -16,6 +16,7 @@ namespace Player {
 
         void KillPlayer();
         void SetSpawnPosition(glm::vec2 newPosition);
+        void SetDashAmount(int amount);
     private:
         Player::CelPlayerMovement* m_playerMovement = new CelPlayerMovement(this);
 
@@ -25,6 +26,7 @@ namespace Player {
     public:
         bool m_isAlive;
         void RevivePlayer();
+        int FruitPoint = 0;
     };
 };
 

@@ -12,6 +12,7 @@
 #include "Object/CelBalloonObject.h"
 #include "Object/CelCloudObject.h"
 #include "Object/CelCoinObject.h"
+#include "Object/Fruit/CelFruit.h"
 
 using std::string;
 namespace Level {
@@ -93,6 +94,13 @@ namespace Level {
                         break;
                     case 'd':
                         AllObject.push_back(std::make_shared<Object::CelCoinObject>(currentPosition));
+                        break;
+                    case 'f':
+                        AllObject.push_back(std::make_shared<Object::CelFruit>(currentPosition, false));
+                        break;
+                    case 'F':
+                        AllObject.push_back(std::make_shared<Object::CelFruit>(currentPosition, true));
+                        break;
                 }
             }
         }

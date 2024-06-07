@@ -83,20 +83,20 @@ namespace Player{
         /**Dash*/
     public:
         void ResetDashAmount(){
-            m_DashAmount = maxDashAmount;
+            m_DashAmount = m_MaxDashAmount;
         };
         void SetMaxDashAmount(int Delta){
-            maxDashAmount = Delta;
+            m_MaxDashAmount = Delta;
         }
         int GetDashAmount(){
             return m_DashAmount;
         }
     private:
         void Dash();
-        const float m_dashBuffer = 9.5;
+        const float m_dashBuffer =10;
         float m_dashDuration = 0;
         int m_DashAmount = 1;
-        int maxDashAmount = 1;
+        int m_MaxDashAmount = 1;
         /***/
     private:
         MovementState m_MovementState;
