@@ -28,6 +28,8 @@ namespace Level {
     }
 
     void CelMapManager::LoadLevel(int LevelNum) {
+        /**Init*/
+        m_ObjectsToRevive.clear();
         /**remove this in better way*/
         std::shared_ptr<Object::CelSpringObject> tempSpring;
         if(LevelNum > Levels->LevelContainer.size() || LevelNum < 1){
@@ -56,11 +58,13 @@ namespace Level {
                         if(LevelData[x+(y+1)*m_GridWidth] == 'b'){
                             tempSpring =  std::make_shared<Object::CelSpringObject>(currentPosition,true);
                             AllObject.push_back(tempSpring);
+                            m_ObjectsToRevive.push_back(tempSpring);
                         }else{
                             AllObject.push_back(std::make_shared<Object::CelSpringObject>(currentPosition,false));
                         }
                         break;
                     case 'b':
+
                         if(LevelData[x+(y-1)*m_GridWidth] == 'S'){
                             std::shared_ptr<Object::CelBoxObject> box = std::make_shared<Object::CelBoxObject>(currentPosition);
                             if(tempSpring){
@@ -69,8 +73,11 @@ namespace Level {
                                 LOG_ERROR("Can't Find Target Spring ");
                             }
                             AllObject.push_back(box);
+                            m_ObjectsToRevive.push_back(box);
                         }else{
-                            AllObject.push_back(std::make_shared<Object::CelBoxObject>(currentPosition));
+                            std::shared_ptr<Object::CelBoxObject> box = std::make_shared<Object::CelBoxObject>(currentPosition);
+                            AllObject.push_back(box);
+                            m_ObjectsToRevive.push_back(box);
                         }
                         break;
                     case 'B':
@@ -156,6 +163,14 @@ namespace Level {
         if(Bottom) return 0;
         if(Right) return 90;
         if(Left) return 270;
+    }
+
+    void CelMapManager::ReviveAll() {
+        if(m_ObjectsToRevive.empty()) return;
+
+        for (int i = 0; i < m_ObjectsToRevive.size(); ++i) {
+            m_ObjectsToRevive[i]->Revive();
+        }
     }
 
 

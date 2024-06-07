@@ -61,5 +61,11 @@ namespace Object{
         }
     }
 
+    void CelSpringObject::Revive() {
+        m_SpringStage = Idle;
+        SetImage(IdleImgPath);
+        SetVisible(true);
+    }
+
 
 }

@@ -29,6 +29,9 @@ public:
     glm::vec2 GetVertualLine() override;
     glm::vec2 GetHorizonLine() override;
     void Update() override;
+    /**Revive*/
+public:
+    void Revive() override;
 private:
     SpringStage m_SpringStage;
     bool bIsOnBox;

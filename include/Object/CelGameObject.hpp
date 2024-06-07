@@ -27,6 +27,8 @@ public:
     void SetAnimation(const std::vector<std::string> &paths, bool play,
                       std::size_t interval, bool looping = true,
                       std::size_t cooldown = 100);
+    /**Revive*/
+    virtual void Revive();
 };
 }
 

@@ -30,6 +30,9 @@ namespace Object {
         };
         std::shared_ptr<Util::Animation> m_anim;
         const std::size_t m_animInterval = 150;
+    /**Revive */
+    public:
+        void Revive() override;
     /**OnBroken*/
     public:
         void Update() override;

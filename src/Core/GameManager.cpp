@@ -23,8 +23,16 @@ namespace Core {
         m_player->Update();
         m_player->Draw();
         m_MapManager->DrawALL();
-
-        //KeyPress For Testing
+        /**Revive Player*/
+        if(!m_player->m_isAlive){
+            m_player->RevivePlayer();
+            m_MapManager->ReviveAll();
+        }
+        /**Kill Player for height*/
+        if(m_player->m_Transform.translation.y<-260){
+            m_player->KillPlayer();
+        }
+        //For Testing
         if(m_player->m_Transform.translation.y >= 256 || Util::Input::IsKeyDown(Util::Keycode::F)){
             m_LevelNow++;
             m_MapManager->LoadLevel(m_LevelNow);

@@ -59,4 +59,11 @@ namespace Object {
         }
         return CelGameObject::GetVertualLine();
     }
+
+    void CelBoxObject::Revive() {
+        m_BoxState = BoxState::Idel;
+        SetVisible(true);
+        m_anim->SetCurrentFrame(0);
+        m_anim->Pause();
+    }
 } // Object

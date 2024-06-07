@@ -17,14 +17,10 @@
  * c = GoRightCloud
  * d = DashCoin*/
  //todo: better Data saving
-static const char* s_tempLevel="";
 namespace Level{
 
     class CelLevels{
     public:
-        inline CelLevels(){
-            LevelContainer.push_back(s_tempLevel);
-        };
         std::vector<const char*> LevelContainer{
                 "sssssssssssss,,sssssssss,,,,,,,sssss,,,,,,,,,,,ssss,,,,,,,,,,ssssss,,,,,,,,,ssss""sss,,,,,,,,,,,sssssss,,,,,,,,,,sss,,,,,,,,,,,,,ss,,,,,,,,,,,,,,ss,,,,,,,,,,,,sss,,,,,,,,,,,,,,ss,,,,,,,,,,,,,,ss,p,ss,,ss,,,,,sssssss,,ss,,kkksssssss,,sskksssssssssskksssssssss",
                 "ssssssssssss,,,sssssss,,,,ss,,,sssss,,,,,,ss,,,ssss,,,,,,,ss,,,ssss,,,,,,,s,,,,ssss,,,,k,,s,,,,ss,,,,,,s,,,,,,ssssss,,,s,,,,,,ssssss,,,s,,,,,,ssssss,,,s,,,,,,ssssss,,,s,,,,,sssssss,,,s,,,,,,,s,,ss,,,s,,,,,,,s,,,s,,,skkk,,,,,,p,,,,,ssss,,,,,sssssssssss,,,,,",
@@ -48,7 +44,15 @@ namespace Level{
                 "ss,,,,ssssssssssss,,,,sss,,,,,,,sk,,,,,,,,,,,,,,ssssssssssssk,,Bsssssssssssssk,,sssssssssssssk,,sssssss,,,,,sk,BsssssssB,,,,,,,,ssss,,,,,,,,,,,,ssss,,,,,,,,,,,,spssB,,,,,,,,,,,sb,,,,,,,,,,,,,,s,,,,,,,,,,,,,,,s,,,,,,,,,,,,,,,s,,,,,,,,,,,,,,,s,,,,,,,,,,,,,,,,",
                 ",,,,,,,,,,,,ssss,,,,,,k,,,,,,,,s,,,,,ksk,S,,,,,,,,,k,,k,ksk,,,B,,,ksk,,,,k,,,,,,,,,k,,,k,,,,,,,,,,,,,,ksk,,B,,,,,p,,,,,k,,,,,,,,,skkkkkkkkkkkk,B,sssssssssssssk,,s,,,,,s,,,,,sk,,k,,,,,k,,,,,sk,,,,,B,,,,,B,,,,,,,,,,,,,,,,,,,B,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
                 "ssssssssss,,,sss,,,,ssssss,,,sss,,,,,,,,,s,,,sss,,,,,,,,,,,,,s,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,d,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ssssss,,,,,,,,,sssssss,sss,,p,,sssssssssssssssssssssssssssssssssssssssssss",
-                "sssssk,,,,,,sssssssssk,,,,,,sssssssssk,,,kkssssssss,,,,,,sssssssss,,,,,,,sssssssss,,,,,,,,,,ssssss,,,,,,,,,,,,,,ss,,,,,,,,,,,,,,ss,,,,,,,,,,,,,,ss,,,,,,,,,,,,,,ss,,,,,,,,,,,,,,ss,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,p,,,,,,,,,,,,,,ss,,,,,,,,,,,,,,sss,,,,,,,,,,"
+                "sssssk,,,,,,sssssssssk,,,,,,sssssssssk,,,kkssssssss,,,,,,sssssssss,,,,,,,sssssssss,,,,,,,,,,ssssss,,,,,,,,,,,,,,ss,,,,,,,,,,,,,,ss,,,,,,,,,,,,,,ss,,,,,,,,,,,,,,ss,,,,,,,,,,,,,,ss,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,p,,,,,,,,,,,,,,ss,,,,,,,,,,,,,,sss,,,,,,,,,,",
+                "s,,,sssssssssssss,,,sssssssssssss,,,,,,,,,,,sssss,,,,,kkk,,,,ssss,,,,ksss,,,,sssskkkkssss,,ksssssssssssss,,kssssssssss,,,,,kssssssssss,,,,,kssssssssss,,,kkkssssssssss,,ksssssssssssss,,ksssssss,,,,,,,,ksssssss,,,,,,,,ksssssss,p,,,,,,ksssssssssss,,,,ksssssss",
+                "sssssskkkksssss,ssssssk,,,kkkss,ssssssk,,,,,,ss,ssssssk,,,k,,ss,ssssssk,,,sk,ss,ssssssk,,,skSss,sssssskS,,skbss,,,,,,sks,,sk,,,,,,k,,sssk,ssssss,ksk,,,sk,,,,,,k,ksk,,,skkkk,,,k,ksk,,,sssss,,,k,,k,,,,kkkkk,,,k,,,,p,,,,,,,,,,k,,,,ssskkkkk,S,k,,,,ssssssss,b,k",
+                "ssssssssssssss,,ss,,,,,,ssk,,,,,,,,,,,k,sk,,,s,,,,,,,ks,,,,,,s,,,,,,,ks,,,,,,s,,,,,,,ks,,,,,,s,,,,,,,kskkkkkksss,,,,ssssssssssss,,,,,,,,,,,,ksss,,,,,,,,,,,,sssskkkkk,,,,,,,ssssssssskksk,,,sssssssssssk,,,,kkss,p,,,,,,,,,,,,,ssss,,,,,,,,,,,,ssss,,,,,,,,,,,,,",
+                "ssssssssssssssk,sssssssssssskk,,sssssskkkkss,,,,sssssk,,,,ks,,,,sssssk,,,,ks,,,,sssssk,,,,ks,,,,sssssk,,k,ksk,,,sssssk,ks,ksk,,,ssssskBks,ks,,,,kkkksk,ks,ksB,,,,,,,,,,ks,ks,,,,,,,,,,,ks,,,,,,,,,,,,,,ks,,,,,,,,,,,,,,ks,,,,,,,p,,,,,,ks,,,,,,,s,,,,,,,,,,,,,,,",
+                "sssssss,,,,kssss,p,,,ss,,,,kssssssss,ss,,,,ks,,,,,,,,ssssk,ks,,,,,,,,ssssk,,,,,,,,,,,ssssk,,,,,,,kkkkssssk,,,,,,,ssssssssk,,k,,,,kkkkkkssk,ksk,,,,,,,,ksskbksk,,,,,,,,ksskkksk,,kkkk,,kssssssk,,ssss,,ssssssk,,,ssss,,,,,,,,,B,,ssss,,,,,,,,,,,,ssssbb,,,,,,,,,,",
+                "sssssssssssss,,ssssssssssssss,,s,,,,,,,,,,,ss,,,,,,k,,,,,k,ss,,,,,ksk,B,ksk,k,,,,,,k,,,,,k,kskk,,,,,,,k,,,k,kksB,,,,,ks,,,skB,k,,k,,,,k,,,sk,,,,kskk,,,k,,k,,,,,,kksk,ksk,,,,,,,p,,k,,ksk,,,,,,,s,,,,,ksk,,,,,,,s,,,,,,k,,,,,,,,s,,S,,,,,,,,,,,,s,,s,,,,,,,,,,,,",
+                "ssssss,,,ssssssssssskk,,,ss,,,sssskk,,,ssk,,,,ssssk,,,,ssk,,,,ssssk,,,,kk,,,,,ssssk,,,,,,,,,,ksssskkkk,,,B,,,kssssssssk,,,,,,,ksssssssk,,kk,,,kskkkkkk,kkssk,,kskp,,,,ksssssk,kskb,,,,kssskk,,,kkkkk,,kssk,,,B,,ssssk,,kk,,,,,,,sssskB,,,,,,,,,,ssssk,,,,,,,,,,,",
+                ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ss,,,,,,,,,,,,,ssss,,,,,,,,,,,ssssss,,,,,,,,,,ssssss,,,,,,,,,,ssssss,,,,,,,,,,sssssss,,,,,,ssssssssss,,,,p,sssssssssss,,,ssssssssssssssss"
         };
     };
 }

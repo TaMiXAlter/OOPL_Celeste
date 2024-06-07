@@ -64,7 +64,9 @@ namespace Object {
         m_Transform = sharedPtr->m_Transform;
     }
 
+    void CelGameObject::Revive() {
 
+    }
 
 
 }
