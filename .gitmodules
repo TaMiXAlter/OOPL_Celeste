@@ -1,4 +1,3 @@
 [submodule "PTSD"]
 	path = PTSD
-	url = https://github.com/ntut-open-source-club/practical-tools-for-simple-design/commit/b55fbeb4121c39b63eda953df67993ddb2ee00dd
-	branch = b55fbeb4121c39b63eda953df67993ddb2ee00dd
+	url = https://github.com/ntut-open-source-club/ptsd-template
