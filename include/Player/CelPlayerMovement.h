@@ -28,7 +28,7 @@ enum MovementState{
 namespace Player{
     class CelPlayerMovement {
     public:
-        CelPlayerMovement(CelPlayer* Owner);
+        explicit CelPlayerMovement(CelPlayer* Owner);
         void UPDATE();
         bool ApplyCollide;
         void ResetValue();
@@ -88,8 +88,14 @@ namespace Player{
         void SetMaxDashAmount(int Delta){
             m_MaxDashAmount = Delta;
         }
-        int GetDashAmount(){
+        int GetDashAmount() const{
             return m_DashAmount;
+        }
+        void SetDashDelta(int newNum){
+            m_DashDelta = newNum;
+        }
+        int GetDashDelta(){
+            return m_DashDelta;
         }
     private:
         void Dash();
@@ -97,6 +103,7 @@ namespace Player{
         float m_dashDuration = 0;
         int m_DashAmount = 1;
         int m_MaxDashAmount = 1;
+        int m_DashDelta = 1;
         /***/
     private:
         MovementState m_MovementState;

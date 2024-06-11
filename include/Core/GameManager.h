@@ -7,6 +7,7 @@
 
 #include "Player/CelPlayer.h"
 #include "Level/CelMapManager.h"
+#include "Util/Text.hpp"
 namespace Core {
 
 class GameManager {

@@ -35,25 +35,29 @@ namespace Core {
         //For Testing
         if(m_player->m_Transform.translation.y >= 256 || Util::Input::IsKeyDown(Util::Keycode::F)){
             if(m_LevelNow == 22){
-                m_player->SetDashAmount(2);
+                m_player->PlayerMovement->SetMaxDashAmount(2);
             }
             m_LevelNow++;
             m_MapManager->LoadLevel(m_LevelNow);
             m_player->UpdateSolid(m_MapManager->AllObject);
             m_player->KillPlayer();
-        }else if(Util::Input::IsKeyDown(Util::Keycode::S)){
+        }else if(Util::Input::IsKeyDown(Util::Keycode::D)){
             if(m_LevelNow == 22){
-                m_player->SetDashAmount(1);
+                m_player->PlayerMovement->SetMaxDashAmount(1);
             }
             m_LevelNow --;
             m_MapManager->LoadLevel(m_LevelNow);
             m_player->UpdateSolid(m_MapManager->AllObject);
             m_player->KillPlayer();
+        }else if(Util::Input::IsKeyDown(Util::Keycode::A)){
+            //infinite Dash
+            if(m_player->PlayerMovement->GetDashDelta() == 1){
+                m_player->PlayerMovement->SetDashDelta(0);
+            }else{
+                m_player->PlayerMovement->SetDashDelta(1);
+            }
         }
 
-        if(m_LevelNow == 30){
-
-        }
     }
 
     Player::CelPlayer& GameManager::GetPlayer() {

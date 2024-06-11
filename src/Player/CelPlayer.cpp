@@ -12,9 +12,9 @@ namespace Player {
     }
 
     void CelPlayer::Update() {
-        m_playerMovement->UPDATE();
+        PlayerMovement->UPDATE();
 
-        switch (m_playerMovement->GetDashAmount()) {
+        switch (PlayerMovement->GetDashAmount()) {
             case 0:
                 SetImage(RESOURCE_DIR"/Imgs/Celeste_Player/8.png");
                 break;
@@ -39,7 +39,7 @@ namespace Player {
     }
 
     void CelPlayer::RevivePlayer() {
-        m_playerMovement->ResetValue();
+        PlayerMovement->ResetValue();
         m_Transform.translation = m_SpawnPosition;
         m_isAlive = true;
     }
@@ -47,12 +47,4 @@ namespace Player {
     void CelPlayer::SetSpawnPosition(glm::vec2 newPosition) {
         m_SpawnPosition = newPosition+glm::vec2(0,2) ;
     }
-
-    void CelPlayer::SetDashAmount(int amount) {
-        m_playerMovement->SetMaxDashAmount(amount);
-    }
-
-
-
-
 }

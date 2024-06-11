@@ -15,23 +15,15 @@ namespace Object{
             m_Transform.translation = Initposition;
             IsTouched = false;
         }
-
-
         glm::vec2 GetVertualLine() override{
-            const float Heigth= this->GetScaledSize().y;
-            const float YPosition = this->m_Transform.translation.y ;
-
             if(IsTouched) return {0,0};
-            else return {round(YPosition - (Heigth/2)),round(YPosition + (Heigth/2))};
+            else return CelGameObject::GetVertualLine();
         }
 
         glm::vec2 GetHorizonLine() override{
-            const float Width = this->GetScaledSize().x;
-            const float XPosition = this->m_Transform.translation.x;
-
             //** x:Bottom  and y:Top edges */
             if(IsTouched) return {0,0};
-            else return {round(XPosition - (Width/2)),round(XPosition + (Width/2))};
+            else return CelGameObject::GetHorizonLine();
         }
         void Disable(){
             IsTouched = true;

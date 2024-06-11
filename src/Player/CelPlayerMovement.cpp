@@ -43,9 +43,9 @@ namespace Player{
             else if (Util::Input::IsKeyPressed(Util::Keycode::DOWN)) m_direction.y = -1;
             else m_direction.y = 0;
         }
-        if (Util::Input::IsKeyPressed(Util::Keycode::X)) {
+        if (Util::Input::IsKeyDown(Util::Keycode::X)) {
             if (m_DashAmount > 0 && m_MovementState != Dashing) {
-                m_DashAmount--;
+                m_DashAmount-=m_DashDelta;
                 m_MovementState = Dashing;
                 m_dashDuration = 10;
                 m_canRun = false;
@@ -245,11 +245,12 @@ namespace Player{
                 }
             }else if(std::shared_ptr<Object::CelBalloonObject> Balloon = std::dynamic_pointer_cast<Object::CelBalloonObject>(other)){
                 if(isSolids(Balloon,position)){
+                    Balloon->Eat();
                     ResetDashAmount();
                 }
             }else if(std::shared_ptr<Object::CelCloudObject> Cloud = std::dynamic_pointer_cast<Object::CelCloudObject>(other)){
                 if(isOnCloud(Cloud,position)){
-                   m_MovementState = OnGround;
+                    m_MovementState = OnGround;
                     m_DashAmount = m_MaxDashAmount;
                     ResetGravity();
                     MoveX(Cloud->GetMovement());

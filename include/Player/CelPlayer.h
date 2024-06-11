@@ -16,9 +16,9 @@ namespace Player {
 
         void KillPlayer();
         void SetSpawnPosition(glm::vec2 newPosition);
-        void SetDashAmount(int amount);
+
+        Player::CelPlayerMovement* PlayerMovement = new CelPlayerMovement(this);
     private:
-        Player::CelPlayerMovement* m_playerMovement = new CelPlayerMovement(this);
 
         glm::vec2 m_SpawnPosition;
         std::vector<std::shared_ptr<Object::CelGameObject>> m_solids;
