@@ -41,8 +41,8 @@ namespace Level {
         /**propety*/
         const int m_GridWidth = 16;
         const int m_GridHeight =16;
-        const int m_TileWidth = PTSD_Config::WINDOW_WIDTH/m_GridWidth;
-        const int m_TileHeight= PTSD_Config::WINDOW_HEIGHT/m_GridHeight;
+        const int m_TileWidth = 512/m_GridWidth;
+        const int m_TileHeight= 512/m_GridHeight;
         /**start from top-left
          * (-1*WINDOW_WIDTH/2)+m_TileWidth/2,(WINDOW_HEIGHT/2)-m_TileHeight/2 不知道為啥不能用*/
         const glm::vec2 m_StartPoint = glm::vec2 (-240,240);

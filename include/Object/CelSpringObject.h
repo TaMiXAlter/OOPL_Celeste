@@ -5,6 +5,8 @@
 #ifndef PICO8_CELESTE_CELSPRINGOBJECT_H
 #define PICO8_CELESTE_CELSPRINGOBJECT_H
 
+#include <map>
+
 #include "CelGameObject.hpp"
 enum SpringStage{
     Idle,

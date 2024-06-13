@@ -5,6 +5,7 @@
 #ifndef PICO8_CELESTE_CELBOXOBJECT_H
 #define PICO8_CELESTE_CELBOXOBJECT_H
 
+#include <map>
 #include <glm/vec2.hpp>
 #include "CelGameObject.hpp"
 #include "Util/Animation.hpp"
